@@ -3,6 +3,7 @@
 -- Two de-bounced push-buttons
 -- One: increase duty cycle by 10%
 -- Another: Decrease duty cycle by 10%
+--- edit1
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
