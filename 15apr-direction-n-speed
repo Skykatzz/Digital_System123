@@ -56,10 +56,10 @@ begin
 		action_right <= (28 *rightmotor) + error_right; -- signed bit
 	End if;
 	
-	If size < '30%' then
+	If size < 30 then
 		robot_dir <= 1;
-		size_speed<=30; -- maju
-	Elsif size >= '30%' and size <= '60%' then 
+		size_speed <= 30; -- maju
+	Elsif size >= 30 and size <= 60 then 
 		robot_dir <= 1;
 		processed_size <=size/2 -- bagi 2, shift right
 		size_speed <= 30 - processed_size; -- maju pelan
@@ -68,7 +68,7 @@ begin
 		size_speed <= 30; -- mundur
 	End if;
 
-	If position = '01' then
+	If position = 11 then
 		goal_speed_left <= 2*size_speed;
 		goal_speed_right <= 2*size_speed; 
 		If robot_dir = '1' then-- maju lurus
@@ -79,11 +79,11 @@ begin
 			rightmotor <= 0; -- right motor mundur
 		end if;
 	
-	Elsif position = '10' then-- maju belok kiri
+	Elsif position = 10 then-- maju belok kiri
 		If robot_dir = '1' then
 			goal_speed_left <= size_speed;
 			leftmotor <= 1; -- left motor maju
-			goal_speed_right=2*size_speed;
+			goal_speed_right <= 2*size_speed;
 			rightmotor <= 1; -- right motor maju
 		else -- mundur kanan
 			goal_speed_left <= 2*size_speed; 
@@ -93,7 +93,7 @@ begin
 		end if;
  
 
-	Elsif position = '11' then
+	Elsif position = 10 then
 		If robot_dir = '1' then-- maju belok kanan
 			goal_speed_left <= 2*size_speed; 
 			leftmotor <= 1; -- left motor maju
@@ -112,14 +112,11 @@ begin
 			leftmotor <= 1; -- left motor maju
 			goal_speed_right <= size_speed; 
 			rightmotor <= 0; -- right motor mundur
-		end loop
-		while counter = '2' loop
-			delay;
-			counter=0; -- kembalikan counter ke 0
 		end loop;
+		delay; --delay berapa lama?
+		counter <=0; -- kembalikan counter ke 0
 
 	End if;
-End if;
 
 End process;
 
