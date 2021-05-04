@@ -4,13 +4,13 @@ use ieee.std_logic_unsigned.all;
 use IEEE.NUMERIC_STD.ALL;
 
 
-entity RCLK_generator is
+entity RCLK_GENERATOR is
 port(	CLK : IN STD_LOGIC;
 		RST : IN STD_LOGIC;
 		RCLK: OUT STD_LOGIC);
-end RCLK_generator;
+end RCLK_GENERATOR;
 
-architecture Behavioral of RCLK_generator is
+architecture Behavioral of RCLK_GENERATOR is
 
 	SIGNAL COUNT: STD_LOGIC_VECTOR(2 DOWNTO 0);--membagi clock dengan 2^3 (dibagi 8)
 
