@@ -12,14 +12,22 @@ end Counter;
 
 architecture Count of Counter is
 -- 5 detik --> 50 counting
-Signal counting : std_logic_vector (5 downto 0);
+Signal counting : std_logic_vector (5 downto 0); -- 6 bit
 
 begin
-
+	 Process() --untuk reset enable
+	 begin
+		  
+	 end process;
+	 
     Process(RCLK, RST)
     begin
         if RST = '1' then --kalo direset
             counting <= "000000";
+				STR_DELAY <= '0';
+		  elsif rising_edge(COUNT_EN) then
+				counting <= "000000";
+				STR_DELAY <= '0';
         elsif rising_edge(RCLK) and COUNT_EN = '1' then
             if counting = "110001" then -- 50 counting
                 counting <= "000000";
