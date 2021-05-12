@@ -5,22 +5,20 @@ use ieee.std_logic_unsigned.all;
 
 entity US2S is
  port 
-( 
-           --Inputs
-           RMF_DIRECTION : in std_logic ;
-			  RMF_SPEED : in std_logic_vector (7 downto 0);
-			  LMF_DIRECTION : in std_logic ;
-			  LMF_SPEED : in std_logic_vector (7 downto 0);
-			  RCLK: in std_logic;
-           --Outputs
-           L_Feedback : out std_logic_vector (8 downto 0);
-			  R_Feedback : out std_logic_vector (8 downto 0)
+( --Inputs
+  RMF_DIRECTION : in std_logic ;
+  RMF_SPEED : in std_logic_vector (7 downto 0);
+  LMF_DIRECTION : in std_logic ;
+  LMF_SPEED : in std_logic_vector (7 downto 0);
+  RCLK: in std_logic;
+  --Outputs
+  L_Feedback : out std_logic_vector (8 downto 0);
+  R_Feedback : out std_logic_vector (8 downto 0)
 );
 end US2S;
 
 architecture US2S_v1 of US2S is
-signal tempL : std_logic_vector(7 downto 0);
-signal tempR : std_logic_vector(7 downto 0);
+signal tempL,tempR : std_logic_vector(7 downto 0);
 
 begin
 	process(LMF_DIRECTION,LMF_SPEED,RCLK)
