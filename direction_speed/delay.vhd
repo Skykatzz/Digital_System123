@@ -16,6 +16,7 @@ architecture Behavioral of delay is
     signal ticks: std_logic_vector(3 downto 0);
     signal seconds: std_logic_vector(3 downto 0);
 begin
+	
 process(RCLK, RST) is
 begin
 	
@@ -23,26 +24,26 @@ if RST = '1' then
 	ticks <= "0000";
         seconds <= "0000";
 	finishdelay <= '1';
-elsif timerreset = '1' then
+elsif rising_edge(timerreset) then
 	ticks <= "0000";
         seconds <= "0000";
 	finishdelay <= '0';
-elsif startdelay = '1' then --kalo disuruh mulai oleh SRFFdelay
-        if rising_edge(RCLK) then
-            	if ticks = "1001" then --10 hz
-                	if seconds = "1001" then --10 detik delay
-                    		seconds <= "0000";
-                    		finishdelay <= '1';
-                	else
-                    		finishdelay <= '0';
-		    		seconds <= seconds + 1;
-                	end if;
+elsif startdelay = '1' and rising_edge(RCLK) then --kalo disuruh mulai oleh SRFFdelay
+	if ticks = "1001" then --10 hz
+        	if seconds = "1001" then --10 detik delay (0 sampai 9)
+                	seconds <= "0000";
+                    	finishdelay <= '1';
+                else
+                	finishdelay <= '0';
+		    	seconds <= seconds + 1;
+                end if;
                 ticks <= "0000";
-            	else
-			ticks <= ticks + 1; -- 
-            	end if;
-	end if; 
+	else
+		ticks <= ticks + 1;
+	end if;
+
 end if;
+	
 end process;
 
 end Behavioral;
