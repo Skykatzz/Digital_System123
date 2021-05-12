@@ -17,7 +17,7 @@ begin
     if RST = '1' then
         Q <= '0';
     elsif rising_edge(CLOCK) then
-	if RST_EN = '1' then
+	if rising_edge(RST_EN) then
 		Q <= '0';
         elsif set = '1' then
 		Q <= '1';
