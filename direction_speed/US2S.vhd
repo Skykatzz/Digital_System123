@@ -12,7 +12,7 @@ port
       LMF_SPEED         : in std_logic_vector (7 downto 0);
       RCLK              : in std_logic;
            --Outputs
-      L_Feedback : out std_logic_vector (8 downto 0);
+      L_Feedback : out std_logic_vector (8 downto 0); -- 9bit -- 
       R_Feedback : out std_logic_vector (8 downto 0));
 end US2S;
 
@@ -23,18 +23,18 @@ begin
     process(LMF_DIRECTION, LMF_SPEED, RMF_DIRECTION, RMF_SPEED)
     begin
     if RCLK='1' then
-        if LMF_DIRECTION = '0' then --Left 0 CW (MAJU)
+        if LMF_DIRECTION = '0' then --Left 0 CW (MAJU) +1 (0 0000 0001) ... +255 (0 1111 1111)
             L_Feedback <= ('0' & LMF_SPEED) ;
-        elsif LMF_DIRECTION <='1' then --Left 1 CCW (Mundur)
+        elsif LMF_DIRECTION ='1' then --Left 1 CCW (Mundur) -255 (1 0000 0001) ... -1 (1 1111 1111)
             tempL <= not LMF_SPEED;
-            L_Feedback<= ('0'&(tempL + 1));
+            L_Feedback<= ('1'&(tempL + 1));
         end if;
               --ini mending pisah process--
-        if  RMF_DIRECTION ='1' then --Right 1 CCW (MAJU)
+        if  RMF_DIRECTION ='1' then --Right 1 CCW (MAJU) +1 (0 0000 0001) ... +255 (0 1111 1111)
              R_Feedback <= ('0' & RMF_SPEED) ;
-        elsif RMF_DIRECTION ='0' then --Right 0 CW (Mundur)    
+        elsif RMF_DIRECTION ='0' then --Right 0 CW (Mundur) -255 (1 0000 0001) ... -1 (1 1111 1111)
             tempR <= not RMF_SPEED;
-            R_Feedback<= ('0'&(tempR + 1));
+            R_Feedback<= ('1'&(tempR + 1));
         end if ;
     end if;
 end process ;
