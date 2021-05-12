@@ -47,7 +47,7 @@ begin
 		elsif RMF_DIRECTION ='0' then --Right 0 CW (Mundur)	
 			tempR <= not RMF_SPEED;
 			R_Feedback<= ('0'&(tempR + 1));
-		end if ;
+		end if;
 		end if;
 	end process ;
 
