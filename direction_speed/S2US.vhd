@@ -9,7 +9,7 @@ entity S2US is
            --Inputs DARI NICO
            L_action : in  STD_LOGIC_VECTOR (8 downto 0); -- 9 bit
            R_action : in  STD_LOGIC_VECTOR (8 downto 0);
-	   RCLK: in (std_logic);
+	   RCLK: in std_logic;
            --Outputs
            RM_DIRECTION : out std_logic ;
            RM_SPEED : out std_logic_vector (7 downto 0);
