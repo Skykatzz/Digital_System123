@@ -13,7 +13,8 @@ entity S2US is
            RM_DIRECTION : out std_logic ;
            RM_SPEED : out std_logic_vector (7 downto 0);
            LM_DIRECTION : out std_logic ;
-           LM_SPEED : out std_logic_vector (7 downto 0);
+           LM_SPEED : out std_logic_vector (7 downto 0)
+);
               end S2US;
 
 architecture Behavioral of S2US is
