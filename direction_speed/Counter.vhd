@@ -4,8 +4,8 @@ use IEEE.NUMERIC_STD.ALL;
 use ieee.std_logic_unsigned.all;
 
 entity Counter is
-    Port ( RCLK : in  STD_LOGIC; --misal 10 Hz
-           RST : in  STD_LOGIC;
+    Port ( RCLK : in  STD_LOGIC; -- 10 Hz
+           RST : in  STD_LOGIC; -- asynchronous reset
            COUNT_EN : in  STD_LOGIC;
            STR_DELAY : out STD_LOGIC);
 end Counter;
@@ -17,18 +17,18 @@ begin
 	
     Process(RCLK, RST)
     begin
-        if RST = '1' or rising_edge(COUNT_EN) then --kalo direset
+        if RST = '1' or COUNT_EN = '0' then -- 0 jika ada cahaya
             	counting <= "000000";
 		STR_DELAY <= '0';
         elsif rising_edge(RCLK) and COUNT_EN = '1' then
-            	if counting = "110001" then -- 50 counting (0 sampai 49)
+            	if counting = "110001" then -- 50 counting (0 - 49)
                 	counting <= "000000";
+			STR_DELAY <= '1';
             	else
                 	counting <= counting + 1;
             	end if;
         end if;
     end process;
     
-    STR_DELAY <= '1' when counting = "110001" else '0'; -- kalo udah 50 counting baru mulai delay
     
 end Count;
