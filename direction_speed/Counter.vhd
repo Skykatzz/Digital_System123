@@ -19,11 +19,11 @@ begin
     begin
         if RST = '1' or COUNT_EN = '0' then -- 0 jika ada cahaya
             	counting <= "000000";
-		STR_DELAY <= '0';
+		         STR_DELAY <= '0';
         elsif rising_edge(RCLK) and COUNT_EN = '1' then
             	if counting = "110001" then -- 50 counting (0 - 49)
                 	counting <= "000000";
-			STR_DELAY <= '1';
+						STR_DELAY <= '1';
             	else
                 	counting <= counting + 1;
             	end if;
