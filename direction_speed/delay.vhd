@@ -23,7 +23,7 @@ if RST = '1' or timerreset = '1' then
 	ticks <= "00000000";
 	finishdelay <= '1';
 	
-elsif startdelay = '1' and rising_edge(RCLK) then --kalo disuruh mulai oleh SRFFdelay
+elsif timerreset = '0' and startdelay = '1' and rising_edge(RCLK) then --kalo disuruh mulai oleh SRFFdelay
 	if ticks = "01100011" then -- 100 tick (0 - 99) = 10 DETIK
 		finishdelay <= '1';
 		ticks <= "00000000";
