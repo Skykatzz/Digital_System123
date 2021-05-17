@@ -10,8 +10,7 @@ entity error is
            R_GOAL : in  STD_LOGIC_VECTOR (8 downto 0);
            R_FEEDBACK : in  STD_LOGIC_VECTOR (8 downto 0);
            R_action : out  STD_LOGIC_VECTOR (8 downto 0);
-           R_CLOCK : in STD_LOGIC;
-           rst : in std_logic);
+           
 end error;
 
 architecture Behavioral of error is
