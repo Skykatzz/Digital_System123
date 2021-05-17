@@ -9,7 +9,6 @@ entity S2US is
            --Inputs DARI NICO
            L_action : in  STD_LOGIC_VECTOR (8 downto 0); -- 9 bit
            R_action : in  STD_LOGIC_VECTOR (8 downto 0);
-	   RCLK: in std_logic;
            --Outputs
            RM_DIRECTION : out std_logic ;
            RM_SPEED : out std_logic_vector (7 downto 0);
@@ -24,9 +23,8 @@ architecture Behavioral of S2US is
 
 
 begin
-process(L_action,RCLK)
+process(L_action)
 begin
-	 if Rising_edge(RCLK) then
 	    if L_action(8) = '1' then
 		LM_DIRECTION <= '1'; -- Mundur
                 tempL <= (not L_action) + 1; -- 9 bit
@@ -35,12 +33,10 @@ begin
                 LM_DIRECTION <= '0'; -- Maju
                 LM_SPEED <= L_action (7 downto 0);  --ambil bit ke 7 to 0
              end if; 
-	  end if;
 end process;
 	
-process(R_action,RCLK)
+process(R_action)
 begin
-	if Rising_edge(RCLK) then
 	    if R_action(8) = '1' then
 	       RM_DIRECTION <= '0'; -- Mundur
                tempR <= (not R_action) + 1;
@@ -49,7 +45,6 @@ begin
                RM_DIRECTION <= '1'; -- Maju
                RM_SPEED <= R_action (7 downto 0);
           end if; 
-	end if;
 end process;		
 	
 end Behavioral;
