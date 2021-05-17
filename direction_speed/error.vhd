@@ -16,9 +16,8 @@ end error;
 
 architecture Behavioral of error is
 
-signal L_IN_action: std_logic_vector (8 downto 0);
+
 signal L_temp_action: std_logic_vector (8 downto 0);
-signal R_IN_action: std_logic_vector (8 downto 0);
 signal R_temp_action: std_logic_vector (8 downto 0);
 
 begin
@@ -26,11 +25,11 @@ begin
     begin
         L_temp_action <= L_GOAL - L_FEEDBACK; 
         if (L_GOAL(8) = 1 and L_FEEDBACK(8) = 0 and L_temp_action(8) = 0) then
-            L_IN_action <= "100000001"; -- -255
+            L_action <= "100000001"; -- -255
         elsif(L_GOAL(8) = 0 and L_FEEDBACK(8) = 1 and L_temp_action(8) = 1) then
-            L_IN_action <= "011111111"; -- +255
+            L_action <= "011111111"; -- +255
         else
-            L_IN_action <= L_temp_action;
+            L_action <= L_temp_action;
         end if;    
     end process;
     
@@ -39,22 +38,13 @@ begin
     begin
         R_temp_action <= R_GOAL - R_FEEDBACK; 
         if (R_GOAL(8) = 1 and R_FEEDBACK(8) = 0 and R_temp_action(8) = 0) then
-            R_IN_action <= "100000001"; -- -255
+            R_action <= "100000001"; -- -255
         elsif(R_GOAL(8) = 0 and R_FEEDBACK(8) = 1 and R_temp_action(8) = 1) then
-            R_IN_action <= "011111111"; -- +255
+            R_action <= "011111111"; -- +255
         else
-            R_IN_action <= R_temp_action;
+            R_action <= R_temp_action;
         end if;    
     end process;
     
-    process(rst,R_CLOCK)
-    begin
-        if (rst = '1')then
-            L_action <= "000000000";
-            R_action <= "000000000";
-        elsif (rising_edge(R_CLOCK)) then
-            L_action <= L_IN_action;
-            R_action <= R_IN_action;
-        end if;
-    end process;
+   
 end Behavioral;
