@@ -29,7 +29,7 @@ begin
 			else
 				srff_rst <= '0';
 				stoprotate <= '0';
-            counting <= counting + 1;
+            			counting <= counting + 1;
 			end if;
 		end if;
    end process;
@@ -48,13 +48,13 @@ begin
 		end if;
 	end process;
 	
-	process(RST)
+	process(RST) -- EDGE TRIGGERED SR FLIP FLOP
 	begin
 		if RST = '1' then 
 			FINISH <= '1';
-		elsif srff_rst = '1' then 
+		elsif rising_edge(srff_rst) then 
 			FINISH <= '0';
-		elsif srff_set = '1' then
+		elsif rising_edge(srff_set) then
 			FINISH <= '1'; 
 		end if;
 	end process;
