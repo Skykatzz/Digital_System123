@@ -7,55 +7,40 @@ entity nolightcounter is
 Port (
 	RCLK : in  STD_LOGIC; -- 10 Hz
 	RST : in  STD_LOGIC; -- asynchronous reset
-	STARTCOUNT : in  STD_LOGIC;
-	CAHAYA : in  STD_LOGIC;
-	FINISH : out STD_LOGIC);
+	CAHAYA : in  STD_LOGIC; -- ada tidaknya cahaya
+	STARTCOUNT : in  STD_LOGIC; -- mau tidaknya muter/diam di tempat
+	FINISH : out STD_LOGIC); -- menunjukkan sudah selesai muter/diam di tempat
 end nolightcounter;
 
 architecture Behavioral of nolightcounter is
-	signal counting : std_logic_vector (5 downto 0);
 	signal ticks: std_logic_vector(7 downto 0);
-	signal stoprotate, srff_set, srff_rst: std_logic;
+	signal srff_set, srff_rst: std_logic;
 begin
-	
-	process(RCLK, RST) is -- PROCESS UNTUK MUTER DI TEMPAT
+
+	process(RCLK, RST, CAHAYA, STARTCOUNT) is  -- PROCESS UNTUK MUTER/DIAM DI TEMPAT
 	begin
-		if RST = '1' or STARTCOUNT = '0' or CAHAYA = '1' then
-			counting <= "000000";
-		elsif rising_edge(RCLK) and STARTCOUNT = '1' and CAHAYA = '0' then
-			if counting = "110001" then -- 50 counting (0 - 49) 5 DETIK
-				stoprotate <= '1';
-				srff_rst <= '1';
-			else
-				srff_rst <= '0';
-				stoprotate <= '0';
-            			counting <= counting + 1;
-			end if;
-		end if;
-   end process;
-	
-	process(RCLK, RST) is  -- PROCESS UNTUK DIAM DI TEMPAT
-	begin
-		if RST = '1' or CAHAYA = '1' or stoprotate = '0' then
+		if RST = '1' or CAHAYA = '1' or STARTCOUNT = '0' then
 			ticks <= "00000000";
-		elsif CAHAYA = '0' and stoprotate = '1' and rising_edge(RCLK) then --kalo disuruh mulai oleh STR_DELAY
-			if ticks = "011000100" then -- 100 tick (0 - 100)
-				srff_set <= '1';
+		elsif rising_edge(RCLK) and CAHAYA = '0' and STARTCOUNT = '1' then
+			if ticks = "00110001" then -- 50 tick (0 - 49)
+			    srff_rst <= '1'; -- FINISH = 0 -> DIAM DI TEMPAT
+			elsif ticks = "10010101" then -- 100 tick (50 - 149)
+			    srff_set <= '1' ; -- FINISH = 1 -> MUTER DI TEMPAT
+			    ticks <= "00000000";
 			else
-				srff_set <= '0';
-				ticks <= ticks + 1;
+    			    srff_rst <= '0';
+			    srff_set <= '0';
+			    ticks <= ticks + 1;
 			end if;
 		end if;
 	end process;
 	
-	process(RST) -- EDGE TRIGGERED SR FLIP FLOP
+	process(RST, srff_set, srff_rst) -- ASYNCHRONOUS SR FLIP FLOP
 	begin
-		if RST = '1' then 
+		if RST = '1' or srff_set = '1' then 
 			FINISH <= '1';
-		elsif rising_edge(srff_rst) then 
+		elsif srff_rst = '1' then 
 			FINISH <= '0';
-		elsif rising_edge(srff_set) then
-			FINISH <= '1'; 
 		end if;
 	end process;
 	
