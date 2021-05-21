@@ -14,7 +14,7 @@ end nolightcounter;
 
 architecture Behavioral of nolightcounter is
 	signal ticks: std_logic_vector(7 downto 0);
-	signal srff_set, srff_rst: std_logic;
+	signal srl_set, srl_rst: std_logic;
 begin
 
 	process(RCLK, RST, NLC_EN, CAHAYA) is  -- PROCESS UNTUK MUTER/DIAM DI TEMPAT
@@ -23,23 +23,23 @@ begin
 			ticks <= "00000000";
 		elsif rising_edge(RCLK) and NLC_EN = '1' and CAHAYA = '0' then -- jika sudah enable dan tidak ada cahaya
 			if ticks = "00110001" then -- 50 tick (0 - 49)
-				srff_rst <= '1'; -- FINISH = 0 -> DIAM DI TEMPAT
+				srl_rst <= '1'; -- FINISH = 0 -> NEXT DIAM DI TEMPAT
 			elsif ticks = "10010101" then -- 100 tick (50 - 149)
-			    srff_set <= '1' ; -- FINISH = 1 -> MUTER DI TEMPAT
-			    ticks <= "00000000";
+				srl_set <= '1' ; -- FINISH = 1 -> NEXT MUTER DI TEMPAT
+			   ticks <= "00000000";
 			else
-    		    srff_rst <= '0';
-				srff_set <= '0';
+    		   srl_rst <= '0';
+				srl_set <= '0';
 				ticks <= ticks + 1;
 			end if;
 		end if;
 	end process;
 	
-	process(RST, srff_set, srff_rst) -- ASYNCHRONOUS SR FLIP FLOP
+	process(RST, srl_set, srl_rst) -- SR LATCH
 	begin
-		if RST = '1' or srff_set = '1' then 
-			FINISH <= '1';
-		elsif srff_rst = '1' then 
+		if RST = '1' or srl_set = '1' then 
+			FINISH <= '1'; -- DEFAULT 1
+		elsif srl_rst = '1' then 
 			FINISH <= '0';
 		end if;
 	end process;
