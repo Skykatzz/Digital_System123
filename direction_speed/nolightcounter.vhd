@@ -17,19 +17,19 @@ architecture Behavioral of nolightcounter is
 	signal srl_set, srl_rst: std_logic;
 begin
 
-	process(RCLK, RST, NLC_EN, CAHAYA) is  -- PROCESS UNTUK MUTER/DIAM DI TEMPAT
+	process(RCLK, RST, NLC_EN, CAHAYA) is  -- PROCESS UNTUK COUNTING
 	begin
-		if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- jika belum enable, atau ada cahaya
+		if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- jika direset, belum enable, atau terdapat cahaya
 			ticks <= "00000000";
-		elsif rising_edge(RCLK) and NLC_EN = '1' and CAHAYA = '0' then -- jika sudah enable dan tidak ada cahaya
-			if ticks = "00110001" then -- 50 tick (0 - 49)
+		elsif rising_edge(RCLK) then
+			if ticks = "00110010" then -- 50 tick (0 - 50)
 				srl_rst <= '1'; -- FINISH = 0 -> NEXT DIAM DI TEMPAT
-			elsif ticks = "10010101" then -- 100 tick (50 - 149)
+			elsif ticks = "10010110" then -- 100 tick (51 - 150)
 				srl_set <= '1' ; -- FINISH = 1 -> NEXT MUTER DI TEMPAT
-			   ticks <= "00000000";
+			   	ticks <= "00000000";
 			else
-    		   srl_rst <= '0';
-				srl_set <= '0';
+	    		   	srl_rst <= '0';  -- kenapa tetap di 1
+				srl_set <= '0'; -- kenapa tidak berubah ke 1
 				ticks <= ticks + 1;
 			end if;
 		end if;
