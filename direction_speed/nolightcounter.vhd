@@ -7,8 +7,8 @@ entity nolightcounter is
 Port (
 	RCLK : in  STD_LOGIC; -- 10 Hz
 	RST : in  STD_LOGIC; -- asynchronous reset
+	NLC_EN : in  STD_LOGIC; -- enable dari thresholding
 	CAHAYA : in  STD_LOGIC; -- ada tidaknya cahaya
-	STARTCOUNT : in  STD_LOGIC; -- mau tidaknya muter/diam di tempat
 	FINISH : out STD_LOGIC); -- menunjukkan sudah selesai muter/diam di tempat
 end nolightcounter;
 
@@ -17,20 +17,20 @@ architecture Behavioral of nolightcounter is
 	signal srff_set, srff_rst: std_logic;
 begin
 
-	process(RCLK, RST, CAHAYA, STARTCOUNT) is  -- PROCESS UNTUK MUTER/DIAM DI TEMPAT
+	process(RCLK, RST, NLC_EN, CAHAYA) is  -- PROCESS UNTUK MUTER/DIAM DI TEMPAT
 	begin
-		if RST = '1' or CAHAYA = '1' or STARTCOUNT = '0' then
+		if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- jika belum enable, atau ada cahaya
 			ticks <= "00000000";
-		elsif rising_edge(RCLK) and CAHAYA = '0' and STARTCOUNT = '1' then
+		elsif rising_edge(RCLK) and NLC_EN = '1' and CAHAYA = '0' then -- jika sudah enable dan tidak ada cahaya
 			if ticks = "00110001" then -- 50 tick (0 - 49)
-			    srff_rst <= '1'; -- FINISH = 0 -> DIAM DI TEMPAT
+				srff_rst <= '1'; -- FINISH = 0 -> DIAM DI TEMPAT
 			elsif ticks = "10010101" then -- 100 tick (50 - 149)
 			    srff_set <= '1' ; -- FINISH = 1 -> MUTER DI TEMPAT
 			    ticks <= "00000000";
 			else
-    			    srff_rst <= '0';
-			    srff_set <= '0';
-			    ticks <= ticks + 1;
+    		    srff_rst <= '0';
+				srff_set <= '0';
+				ticks <= ticks + 1;
 			end if;
 		end if;
 	end process;
