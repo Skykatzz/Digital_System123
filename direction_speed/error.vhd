@@ -47,7 +47,11 @@ begin
 		elsif(L_GOAL(8) = '0' and L_FEEDBACK(8) = '1' and L_temp_action(8) = '1') then
 			L_action <= "011111111";
 		else
-			L_action <= L_temp_action;
+			IF L_temp_action = "100000000" then
+				L_action <= "100000001";
+			else
+				L_action <= L_temp_action;
+			end if;
 		end if;	
 	end process;
 	
@@ -60,7 +64,11 @@ begin
 		elsif(R_GOAL(8) = '0' and R_FEEDBACK(8) = '1' and R_temp_action(8) = '1') then
 			R_action <= "011111111";
 		else
-			R_action <= R_temp_action;
+			IF R_temp_action = "100000000" then
+				R_action <= "100000001";
+			else
+				R_action <= R_temp_action;
+			end if;
 		end if;	
 	end process;
 	
