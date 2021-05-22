@@ -24,7 +24,8 @@ begin
 		elsif rising_edge(RCLK) then
 			if ticks = "00110010" then -- 50 tick (0 - 50)
 				srl_rst <= '1'; -- FINISH = 0 -> NEXT DIAM DI TEMPAT
-			elsif ticks = "10010110" then -- 100 tick (51 - 150)
+				ticks <= ticks + 1;
+			elsif ticks = "10010111" then -- 100 tick (51 - 150)
 				srl_set <= '1' ; -- FINISH = 1 -> NEXT MUTER DI TEMPAT
 			   	ticks <= "00000000";
 			else
