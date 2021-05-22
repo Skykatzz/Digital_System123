@@ -10,8 +10,7 @@ entity Ctrl is
 		  CTRL_EN : in  STD_LOGIC;
 		  LIGHT : out STD_LOGIC;
 		  GOAL_LEFT : out  STD_LOGIC_VECTOR (8 downto 0);
-		  GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0);
-		  COUNT_EN : out  STD_LOGIC);
+		  GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0));
 end Ctrl;
 
 architecture Control of Ctrl is
@@ -57,17 +56,15 @@ begin
 			GOAL_LEFT <= (others => '0');
 			GOAL_RIGHT <= (others => '0');
 			LIGHT <= '0';
-			COUNT_EN <= '0';
 		elsif (FIN_DELAY = '1' AND CTRL_EN = '1' AND SIZE = "0000000000") then
 			GOAL_LEFT <= "011111111";
 			GOAL_RIGHT <= "100000001";
 			LIGHT <= '0';
-			COUNT_EN <= '1';
-		elsif SIZE > "0000000000" then
+		--elsif SIZE > "0000000000" then
+		else
 			GOAL_LEFT <= TTGL (9 downto 1);
 			GOAL_RIGHT <= TTGR (9 downto 1);
 			LIGHT <= '1';
-			COUNT_EN <= '0';
 		end if;
 	
 	end process;
