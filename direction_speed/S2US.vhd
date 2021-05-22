@@ -24,25 +24,25 @@ architecture Behavioral of S2US is
 
 
 begin
-process(L_action,tempL,LM_SPEED,LM_DIRECTION)
+process(L_action)
 begin
 	    if L_action(8) = '1' then
 		LM_DIRECTION <= '1'; -- Mundur
                 tempL <= (not L_action) + 1; -- 9 bit
                 LM_SPEED <= tempL (7 downto 0); -- cara biar jadi 8 bit
-            elsif L_action(8) = '0' then --0 1011 1111
+            else 
                 LM_DIRECTION <= '0'; -- Maju
                 LM_SPEED <= L_action (7 downto 0);  --ambil bit ke 7 to 0
              end if; 
 end process;
 	
-process(R_action,tempR,RM_SPEED,RM_DIRECTION)
+process(R_action)
 begin
 	    if R_action(8) = '1' then
 	       RM_DIRECTION <= '0'; -- Mundur
                tempR <= (not R_action) + 1;
                RM_SPEED <= tempR (7 downto 0);
-           elsif R_action(8) = '0' then --0 1011 1111
+           else
                RM_DIRECTION <= '1'; -- Maju
                RM_SPEED <= R_action (7 downto 0);
           end if; 
