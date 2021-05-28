@@ -36,9 +36,9 @@ begin
 		end if;
 	end process;
 	
-	process(RST, srl_set, srl_rst) -- SR LATCH
+	process(RST, srl_set, srl_rst, CAHAYA) -- SR LATCH
 	begin
-		if RST = '1' or srl_set = '1' then 
+		if RST = '1' or srl_set = '1' or CAHAYA = '1' then 
 			FINISH <= '1'; -- DEFAULT 1
 		elsif srl_rst = '1' then 
 			FINISH <= '0';
