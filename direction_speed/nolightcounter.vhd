@@ -29,8 +29,8 @@ begin
 				srl_set <= '1' ; -- FINISH = 1 -> NEXT MUTER DI TEMPAT
 			   	ticks <= "0000000000";
 			else
-	    		   	srl_rst <= '0';  -- kenapa tetap di 1
-				srl_set <= '0'; -- kenapa tidak berubah ke 1
+	    		   	srl_rst <= '0';
+				srl_set <= '0';
 				ticks <= ticks + 1;
 			end if;
 		end if;
