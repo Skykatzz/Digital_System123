@@ -17,6 +17,7 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_unsigned.ALL;
@@ -32,7 +33,6 @@ use IEEE.STD_LOGIC_unsigned.ALL;
 
 entity counter is
     Port ( CLK : in  STD_LOGIC;
-           Count : out  STD_LOGIC_VECTOR (4 downto 0);
            RST : in  STD_LOGIC;
            COUNT_EN : in  STD_LOGIC;
 			  stop_cond : out STD_LOGIC
@@ -59,7 +59,6 @@ begin
 	
 	end process;
 
-	Count <= CountIn;
 	
 end Behavioral;
 
