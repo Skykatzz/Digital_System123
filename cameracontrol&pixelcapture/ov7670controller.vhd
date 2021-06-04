@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 --generate LE dan SE dan CE 
-entity ov7670controller is
+entity ov7670_controller is
 
     Port ( Count_EN : out  STD_LOGIC;
            LOAD_EN : out  STD_LOGIC;
@@ -15,8 +15,8 @@ entity ov7670controller is
            RESET_EN: out STD_LOGIC
            ); 
 
-end ov7670controller;
-architecture Behavioral of ov7670controller is
+end ov7670_controller;
+architecture Behavioral of ov7670_controller is
 signal shift_enin: STD_LOGIC;
 signal set_enin: STD_LOGIC;
 
@@ -33,11 +33,11 @@ begin
              -- idle state
           
             --start 1 masuk input send pertama kali
-           if sioc ='1' and siod = '1'  then
+           if sioc ='1' and siod = '1' and reset_en = '0' then
                 load_en <= '1';
              else 
             --start 2 load pertama siod pasti 0 
-                if sioc = '1' and siod = '0' THEN
+                if sioc = '1' and falling_edge(siod) THEN
                  --sioc menjadi 0
                    reset_en <= '1';
             --shift 
