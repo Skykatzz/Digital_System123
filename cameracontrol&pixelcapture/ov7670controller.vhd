@@ -8,58 +8,73 @@ entity ov7670_controller is
            SHIFT_EN : out  STD_LOGIC;
            CLK : in  STD_LOGIC;
            RST : in  STD_LOGIC;
-		   siod : in STD_LOGIC;
-           Sioc : in  STD_LOGIC;
            SET_EN: out STD_LOGIC;
            stop_cond : in STD_LOGIC;
+           advance : out STD_LOGIC;
            RESET_EN: out STD_LOGIC
            ); 
 
 end ov7670_controller;
 architecture Behavioral of ov7670_controller is
-signal shift_enin: STD_LOGIC;
-signal set_enin: STD_LOGIC;
+type state is (idle,start1,start2,shift,setsioc,resetsioc,stop1,stop2);
+signal NS:state;
+signal PS:state;
+
 
 begin
-process(rst, clk)
-begin
-     if rising_edge(clk) then
-     --reset
-        if rst = '1' then
-         LOAD_EN <= '0';
-         shift_en<= '0';
-         set_en <= '0';
-         reset_en <= '0';
-             -- idle state
-          
-            --start 1 masuk input send pertama kali
-           if sioc ='1' and siod = '1' and reset_en = '0' then
-                load_en <= '1';
-             else 
-            --start 2 load pertama siod pasti 0 
-                if sioc = '1' and falling_edge(siod) THEN
-                 --sioc menjadi 0
-                   reset_en <= '1';
-            --shift 
-                elsif stop_cond = '0' then
-                 if sioc = '0'   then
-                   shift_en <= '1';
-                   reset_en <= '0';
-            --set sioc     
-                 elsif shift_enin = '1' then
-                    shift_en <= '0';
-                    load_en <= '1';
-                    count_en <= '1';
-                    set_en <= '1';
-                  
-                elsif set_enin = '1' then
-                    set_en <= '0';
-                    reset_en <= '1';
-                end if;
-               end if;
-           end if;
-       end if;
-	end if;
-end process;
+-- memory
+    process(RST, clk)
+    begin
+        if RST= '1' then
+            PS <= idle;
+        elsif rising_edge(clk) then
+            PS <= NS;   
+        end if; 
+    end process;
+    -- state control
+    process(PS,stop_cond)
+    begin
+        Load_En <= '0';
+        Shift_En <= '0';
+        Set_En <= '0';
+        Reset_En <= '0';
+        Count_En <= '0';
+        advance <= '0';
+        case PS is 
+            when idle =>
+                
+                NS <= start1;
+            when start1 =>  
+                Load_En <= '1';
+                
+                NS <= start2;
+            when start2 =>
+                Reset_en <= '1';
+                NS <= shift;
+            when shift =>
+                 Shift_En <= '1';
+                 NS <= setsioc;
 
+            when setsioc =>
+                 Load_En <= '1';
+                Set_En <= '1';
+                Count_En <= '1';
+                NS <= resetsioc;
+            when resetsioc =>
+                if stop_cond = '0' then 
+                 Shift_En <= '1';
+                 NS <= shift;
+                else 
+                 Shift_En <= '1';
+                 NS <= stop1;
+                 end if;
+            when stop1 =>
+                 Set_En <= '1';
+                 NS <= stop2;
+            when stop2 =>
+                 Set_En <= '1';
+                 NS <= idle;
+                 advance <= '1';
+          end case;      
+    end process;
 end Behavioral;
