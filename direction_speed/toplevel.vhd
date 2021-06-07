@@ -30,9 +30,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity TOPLEVEL is
-Port ( POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
+Port (  POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
 		  SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
-		  --FIN_DELAY : in  STD_LOGIC;
 		  CTRL_EN : in  STD_LOGIC;
         --Outputs
         RM_DIRECTION : out std_logic ;
@@ -44,11 +43,8 @@ Port ( POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
 		  LMF_DIRECTION : in std_logic ;
 		  LMF_SPEED : in std_logic_vector (7 downto 0);
 		  --Outputs
-		  RCLK : in  STD_LOGIC; -- 62.5 Hz
-		  RST : in  STD_LOGIC; -- asynchronous reset
-		  NLC_EN : in  STD_LOGIC; -- enable dari thresholding
-		  CAHAYA : in  STD_LOGIC); -- ada tidaknya cahaya
-		  --FINISH : out STD_LOGIC); 
+		  VSYNC : in  STD_LOGIC; -- 62.5 Hz
+		  RST : in  STD_LOGIC); -- asynchronous reset 
 end TOPLEVEL;
 
 architecture Behavioral of TOPLEVEL is
@@ -96,41 +92,23 @@ end component;
 
 component nolightcounter is
 Port (
-	RCLK : in  STD_LOGIC; -- 62.5 Hz
+	VSYNC : in  STD_LOGIC; -- 62.5 Hz
 	RST : in  STD_LOGIC; -- asynchronous reset
 	NLC_EN : in  STD_LOGIC; -- enable dari thresholding
 	CAHAYA : in  STD_LOGIC; -- ada tidaknya cahaya
 	FINISH : out STD_LOGIC); -- menunjukkan sudah selesai muter/diam di tempat
 end component;
 
-signal POSITION : STD_LOGIC_VECTOR (9 downto 0);
-signal SIZE : STD_LOGIC_VECTOR (9 downto 0);
 signal FIN_DELAY : STD_LOGIC;
-signal CTRL_EN : STD_LOGIC;
 signal LIGHT : STD_LOGIC;
 signal GOAL_LEFT : STD_LOGIC_VECTOR (8 downto 0);
 signal GOAL_RIGHT : STD_LOGIC_VECTOR (8 downto 0);
 signal L_action : STD_LOGIC_VECTOR (8 downto 0); -- 9 bit
 signal R_action : STD_LOGIC_VECTOR (8 downto 0);
-signal RM_DIRECTION : std_logic ;
-signal RM_SPEED : std_logic_vector (7 downto 0);
-signal LM_DIRECTION : std_logic ;
-signal LM_SPEED : std_logic_vector (7 downto 0);
-signal RMF_DIRECTION : std_logic ;
-signal RMF_SPEED : std_logic_vector (7 downto 0);
-signal LMF_DIRECTION : std_logic ;
-signal LMF_SPEED : std_logic_vector (7 downto 0);
 signal L_Feedback : std_logic_vector (8 downto 0);
 signal R_Feedback : std_logic_vector (8 downto 0);
 signal L_GOAL : STD_LOGIC_VECTOR (8 downto 0);-- 
-signal L_FEEDBACK : STD_LOGIC_VECTOR (8 downto 0);
-signal L_action : STD_LOGIC_VECTOR (8 downto 0);
 signal R_GOAL : STD_LOGIC_VECTOR (8 downto 0);-- 
-signal R_FEEDBACK : STD_LOGIC_VECTOR (8 downto 0);
-signal R_action : STD_LOGIC_VECTOR (8 downto 0);
-signal RCLK : STD_LOGIC; -- 62.5 Hz
-signal RST : STD_LOGIC; -- asynchronous reset
-signal NLC_EN : STD_LOGIC; -- enable dari thresholding
 signal CAHAYA : STD_LOGIC; -- ada tidaknya cahaya
 signal FINISH : STD_LOGIC; -- menunjukkan sudah selesai muter/diam di tempat
 
@@ -143,15 +121,15 @@ datapath_error : error
 				L_FEEDBACK => L_Feedback,
 				R_FEEDBACK => R_Feedback,
 				L_action => L_action,
-				R_action => L_action);
+				R_action => R_action);
 				
 datapath_S2US : S2US
 	port map(L_action => L_action,
 				R_action =>R_action,
-				RM_DIRECTION => R_DIRECTION,
-				RM_SPEED => R_VALUE,
-				LM_DIRECTION => L_DIRECTION,
-				LM_SPEED => L_VALUE );
+				RM_DIRECTION => RM_DIRECTION,
+				RM_SPEED => RM_SPEED,
+				LM_DIRECTION => LM_DIRECTION,
+				LM_SPEED => LM_SPEED );
 				
 datapath_Ctrl : Ctrl
 	port map(POSITION => POSITION,
@@ -165,18 +143,17 @@ datapath_Ctrl : Ctrl
 datapath_nolightcounter : nolightcounter
 	port map(CAHAYA => light,
 				FINISH => FIN_DELAY,
-				RCLK => RCLK,
+				VSYNC => VSYNC,
 				RST => RST,
-				NLC_EN => NLC_EN);
+				NLC_EN => CTRL_EN);
 				
 datapath_US2S : US2S
 	port map(R_Feedback => R_FEEDBACK,
 				L_Feedback => L_FEEDBACK,
-				RMF_DIRECTION => RDIRECTION,
-				RMF_SPEED => RSPEED,
-				LMF_DIRECTION => LDIRECTION,
-				LMF_SPEED => LSPEED );
+				RMF_DIRECTION => RMF_DIRECTION,
+				RMF_SPEED => RMF_SPEED,
+				LMF_DIRECTION => LMF_DIRECTION,
+				LMF_SPEED => LMF_SPEED );
 
 end Behavioral;
-
 
