@@ -24,7 +24,7 @@ architecture Behavioral of S2US is
 
 
 begin
-process(L_action)
+process(L_action,tempL)
 begin
 	    if L_action(8) = '1' then
 		LM_DIRECTION <= '1'; -- Mundur
@@ -36,7 +36,7 @@ begin
              end if; 
 end process;
 	
-process(R_action)
+process(R_action,tempR)
 begin
 	    if R_action(8) = '1' then
 	       RM_DIRECTION <= '0'; -- Mundur
