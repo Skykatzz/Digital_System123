@@ -30,21 +30,23 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity TOPLEVEL is
-Port (  POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
-		  SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
-		  CTRL_EN : in  STD_LOGIC;
-        --Outputs
+Port (  --Inputs from Thresholding
+        POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
+	SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
+	CTRL_EN : in  STD_LOGIC;
+        --Outputs to PWM Generator
         RM_DIRECTION : out std_logic ;
         RM_SPEED : out std_logic_vector (7 downto 0);
         LM_DIRECTION : out std_logic ;
         LM_SPEED : out std_logic_vector (7 downto 0);
-		  RMF_DIRECTION : in std_logic ;
-		  RMF_SPEED : in std_logic_vector (7 downto 0);
-		  LMF_DIRECTION : in std_logic ;
-		  LMF_SPEED : in std_logic_vector (7 downto 0);
-		  --Outputs
-		  VSYNC : in  STD_LOGIC; -- 62.5 Hz
-		  RST : in  STD_LOGIC); -- asynchronous reset 
+        --Inputs from PWM Generator
+	RMF_DIRECTION : in std_logic ;
+	RMF_SPEED : in std_logic_vector (7 downto 0);
+	LMF_DIRECTION : in std_logic ;
+	LMF_SPEED : in std_logic_vector (7 downto 0);
+		 
+	VSYNC : in  STD_LOGIC; -- 62.5 Hz from Wilson
+	RST : in  STD_LOGIC); -- asynchronous reset 
 end TOPLEVEL;
 
 architecture Behavioral of TOPLEVEL is
