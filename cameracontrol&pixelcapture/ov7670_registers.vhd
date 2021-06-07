@@ -1,10 +1,11 @@
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity ov7670_registers is
     Port ( clk      : in  STD_LOGIC;
-           resend   : in  STD_LOGIC;
+           rst   : in  STD_LOGIC;
            advance  : in  STD_LOGIC;
            command  : out  std_logic_vector(15 downto 0);
            finished : out  STD_LOGIC);
@@ -20,7 +21,7 @@ begin
    process(clk)
    begin
       if rising_edge(clk) then
-         if resend = '1' then
+         if rst = '1' then
             address <= (others => '0');
          elsif advance = '1' then
             address <= std_logic_vector(unsigned(address)+1);
