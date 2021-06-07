@@ -5,7 +5,7 @@ use ieee.std_logic_unsigned.all;
 
 entity nolightcounter is
 Port (
-	RCLK : in  STD_LOGIC; -- 62.5 Hz
+	VSYNC : in  STD_LOGIC; -- 62.5 Hz
 	RST : in  STD_LOGIC; -- asynchronous reset
 	NLC_EN : in  STD_LOGIC; -- enable dari thresholding
 	CAHAYA : in  STD_LOGIC; -- ada tidaknya cahaya
@@ -17,11 +17,11 @@ architecture Behavioral of nolightcounter is
 	signal srl_set, srl_rst: std_logic;
 begin
 
-	process(RCLK, RST, NLC_EN, CAHAYA) is  -- PROCESS UNTUK COUNTING
+	process(VSYNC, RST, NLC_EN, CAHAYA) is  -- PROCESS UNTUK COUNTING
 	begin
 		if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- jika direset, belum enable, atau terdapat cahaya
 			ticks <= "0000000000";
-		elsif rising_edge(RCLK) then
+		elsif rising_edge(VSYNC) then
 			if ticks = "0100111001" then -- 5 detik (0 - 313)
 				srl_rst <= '1'; -- FINISH = 0 -> NEXT DIAM DI TEMPAT
 				ticks <= ticks + 1;
