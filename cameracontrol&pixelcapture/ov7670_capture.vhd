@@ -17,7 +17,6 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -67,4 +66,4 @@ process (pclk,vsync,href,RST,Q)
      end if;
    
 end process;
-end process;
+end behavioral;
