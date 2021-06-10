@@ -30,23 +30,21 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity TOPLEVEL is
-Port (  --Inputs from Thresholding
-        POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
-	SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
-	CTRL_EN : in  STD_LOGIC;
-        --Outputs to PWM Generator
+Port (  POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
+		  SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
+		  CTRL_EN : in  STD_LOGIC;
+        --Outputs
         RM_DIRECTION : out std_logic ;
         RM_SPEED : out std_logic_vector (7 downto 0);
         LM_DIRECTION : out std_logic ;
         LM_SPEED : out std_logic_vector (7 downto 0);
-        --Inputs from PWM Generator
-	RMF_DIRECTION : in std_logic ;
-	RMF_SPEED : in std_logic_vector (7 downto 0);
-	LMF_DIRECTION : in std_logic ;
-	LMF_SPEED : in std_logic_vector (7 downto 0);
-		 
-	VSYNC : in  STD_LOGIC; -- 62.5 Hz from Wilson
-	RST : in  STD_LOGIC); -- asynchronous reset 
+		  RMF_DIRECTION : in std_logic ;
+		  RMF_SPEED : in std_logic_vector (7 downto 0);
+		  LMF_DIRECTION : in std_logic ;
+		  LMF_SPEED : in std_logic_vector (7 downto 0);
+		  --Outputs
+		  VSYNC : in  STD_LOGIC; -- 62.5 Hz
+		  RST : in  STD_LOGIC); -- asynchronous reset 
 end TOPLEVEL;
 
 architecture Behavioral of TOPLEVEL is
@@ -58,7 +56,8 @@ component Ctrl is
 		  CTRL_EN : in  STD_LOGIC;
 		  LIGHT : out STD_LOGIC;
 		  GOAL_LEFT : out  STD_LOGIC_VECTOR (8 downto 0);
-		  GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0));
+		  GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0);
+		  RST : in  STD_LOGIC);
 end component;
 
 component S2US is
@@ -109,10 +108,9 @@ signal L_action : STD_LOGIC_VECTOR (8 downto 0); -- 9 bit
 signal R_action : STD_LOGIC_VECTOR (8 downto 0);
 signal L_Feedback : std_logic_vector (8 downto 0);
 signal R_Feedback : std_logic_vector (8 downto 0);
-signal L_GOAL : STD_LOGIC_VECTOR (8 downto 0);-- 
-signal R_GOAL : STD_LOGIC_VECTOR (8 downto 0);-- 
 signal CAHAYA : STD_LOGIC; -- ada tidaknya cahaya
 signal FINISH : STD_LOGIC; -- menunjukkan sudah selesai muter/diam di tempat
+
 
 
 begin
@@ -127,7 +125,7 @@ datapath_error : error
 				
 datapath_S2US : S2US
 	port map(L_action => L_action,
-				R_action =>R_action,
+				R_action => R_action,
 				RM_DIRECTION => RM_DIRECTION,
 				RM_SPEED => RM_SPEED,
 				LM_DIRECTION => LM_DIRECTION,
@@ -137,10 +135,11 @@ datapath_Ctrl : Ctrl
 	port map(POSITION => POSITION,
 				SIZE => SIZE,
 				CTRL_EN  => CTRL_EN,
-				FIN_DELAY => FINISH,
-				GOAL_LEFT => L_GOAL,
-				GOAL_RIGHT => R_GOAL,
-				light => CAHAYA );
+				FIN_DELAY => FIN_DELAY,
+				GOAL_LEFT => GOAL_LEFT,
+				GOAL_RIGHT => GOAL_RIGHT,
+				light => CAHAYA,
+				RST => RST);
 
 datapath_nolightcounter : nolightcounter
 	port map(CAHAYA => light,
@@ -155,7 +154,9 @@ datapath_US2S : US2S
 				RMF_DIRECTION => RMF_DIRECTION,
 				RMF_SPEED => RMF_SPEED,
 				LMF_DIRECTION => LMF_DIRECTION,
-				LMF_SPEED => LMF_SPEED );
+				LMF_SPEED => LMF_SPEED );				
+
+
 
 end Behavioral;
 
