@@ -1,53 +1,28 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    15:10:18 06/03/2021 
--- Design Name: 
--- Module Name:    TOPLEVEL - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
-entity TOPLEVEL is
-Port (  POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
+entity TOPLEVELSPEEDNDIR is
+Port (  -- FROM THRESHOLDING:
+		  POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
 		  SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
 		  CTRL_EN : in  STD_LOGIC;
-        --Outputs
-        RM_DIRECTION : out std_logic ;
-        RM_SPEED : out std_logic_vector (7 downto 0);
-        LM_DIRECTION : out std_logic ;
-        LM_SPEED : out std_logic_vector (7 downto 0);
+		  -- FROM MEASUREMENT:
 		  RMF_DIRECTION : in std_logic ;
 		  RMF_SPEED : in std_logic_vector (7 downto 0);
 		  LMF_DIRECTION : in std_logic ;
 		  LMF_SPEED : in std_logic_vector (7 downto 0);
-		  --Outputs
+		  -- FROM CAMERA:
 		  VSYNC : in  STD_LOGIC; -- 62.5 Hz
-		  RST : in  STD_LOGIC); -- asynchronous reset 
-end TOPLEVEL;
+		  -- RESET:
+		  RST : in  STD_LOGIC;
+		  -- TO PWM:
+        RM_DIRECTION : out std_logic ;
+        RM_SPEED : out std_logic_vector (7 downto 0);
+        LM_DIRECTION : out std_logic ;
+        LM_SPEED : out std_logic_vector (7 downto 0)); -- asynchronous reset 
+end TOPLEVELSPEEDNDIR;
 
-architecture Behavioral of TOPLEVEL is
+architecture Behavioral of TOPLEVELSPEEDNDIR is
 
 component Ctrl is
  Port ( POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
@@ -159,4 +134,3 @@ datapath_US2S : US2S
 
 
 end Behavioral;
-
