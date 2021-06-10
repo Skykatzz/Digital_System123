@@ -56,8 +56,7 @@ component Ctrl is
 		  CTRL_EN : in  STD_LOGIC;
 		  LIGHT : out STD_LOGIC;
 		  GOAL_LEFT : out  STD_LOGIC_VECTOR (8 downto 0);
-		  GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0);
-		  RST : in  STD_LOGIC);
+		  GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0));
 end component;
 
 component S2US is
@@ -68,7 +67,8 @@ component S2US is
         RM_DIRECTION : out std_logic ;
         RM_SPEED : out std_logic_vector (7 downto 0);
         LM_DIRECTION : out std_logic ;
-        LM_SPEED : out std_logic_vector (7 downto 0));
+        LM_SPEED : out std_logic_vector (7 downto 0);
+		  RST : in  STD_LOGIC);
 end component;
 
 component US2S is
@@ -129,7 +129,8 @@ datapath_S2US : S2US
 				RM_DIRECTION => RM_DIRECTION,
 				RM_SPEED => RM_SPEED,
 				LM_DIRECTION => LM_DIRECTION,
-				LM_SPEED => LM_SPEED );
+				LM_SPEED => LM_SPEED,
+				RST => RST);
 				
 datapath_Ctrl : Ctrl
 	port map(POSITION => POSITION,
@@ -138,11 +139,10 @@ datapath_Ctrl : Ctrl
 				FIN_DELAY => FIN_DELAY,
 				GOAL_LEFT => GOAL_LEFT,
 				GOAL_RIGHT => GOAL_RIGHT,
-				light => CAHAYA,
-				RST => RST);
+				light => CAHAYA);
 
 datapath_nolightcounter : nolightcounter
-	port map(CAHAYA => light,
+	port map(CAHAYA => CAHAYA,
 				FINISH => FIN_DELAY,
 				VSYNC => VSYNC,
 				RST => RST,
