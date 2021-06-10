@@ -3,8 +3,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity master_top is --yg nyambung ke port luar board
 Port (	
-		  RST : in  STD_LOGIC
-		  ); -- asynchronous reset 
+	RST : in  STD_LOGIC
+);
 end master_top;
 
 architecture Behavioral of master_top is -- top level masing-masing kelompok:
