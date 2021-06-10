@@ -50,7 +50,7 @@ begin
 		end if; 
 	end process;
 	
-	process(SIZE, CTRL_EN, FIN_DELAY) --selector goal speed
+	process(SIZE, CTRL_EN, FIN_DELAY, TTGL, TTGR) --selector goal speed
 	begin
 		if ((FIN_DELAY = '0' AND SIZE = "0000000000") OR CTRL_EN = '0') then
 			GOAL_LEFT <= (others => '0');
