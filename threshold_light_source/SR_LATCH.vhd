@@ -24,17 +24,17 @@ signal a : std_logic := '1';
 signal b : std_logic := '0';
 
 begin
-    process(RST)
+    process(RST, VSYNC, GND, a, b)
     begin
         if RST = '1' then
              a <= '1';
              b <= '0';
-    
+
         else a <= VSYNC nor b;
              b <= GND nor a;
-    
+
         end if;
-    
+
     end process;
 
     Q <= a;
