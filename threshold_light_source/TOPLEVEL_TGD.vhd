@@ -7,11 +7,12 @@ entity TOPLEVEL_TGD is
            RST : in  STD_LOGIC;
            HREF : in STD_LOGIC;
            VSYNC : in  STD_LOGIC;
-           Y : in STD_LOGIC_VECTOR (7 downto 0);
+           Y : inout STD_LOGIC_VECTOR (7 downto 0);
            Size_B : out  STD_LOGIC_VECTOR (9 downto 0);
            Pos_B : out  STD_LOGIC_VECTOR (9 downto 0);
            Q : inout STD_LOGIC;
-           QBAR : inout STD_LOGIC);
+           QBAR : inout STD_LOGIC;
+           GND : in STD_LOGIC);
 end TOPLEVEL_TGD;
 
 architecture Behavioral of TOPLEVEL_TGD is
@@ -24,6 +25,7 @@ end component;
 
 component Size_Buffer is
     Port ( DATA : in  STD_LOGIC_VECTOR (9 downto 0);
+           CLK : in STD_LOGIC;
            VSYNC : in  STD_LOGIC;
            RST : in  STD_LOGIC;
            Size_B : out  STD_LOGIC_VECTOR (9 downto 0));
@@ -31,6 +33,7 @@ end component;
 
 component Position_Buffer is
     Port ( DATA : in  STD_LOGIC_VECTOR (9 downto 0);
+           CLK : in STD_LOGIC;
            VSYNC : in  STD_LOGIC;
            RST : in  STD_LOGIC;
            Pos_B : out  STD_LOGIC_VECTOR (9 downto 0));
@@ -89,19 +92,15 @@ component COUNTER_LEBAR is
            COUNT_LEBAR : out STD_LOGIC_VECTOR (9 downto 0));
 end component;
 
-
-
-signal THD1 : STD_LOGIC_VECTOR (9 downto 0);
-signal COUNT_COLLUMN1 : STD_LOGIC_VECTOR (9 downto 0);
-signal YTHD1 : STD_LOGIC;
-signal COUNT_LEBAR1 : STD_LOGIC_VECTOR (9 downto 0);
-signal BA1 : STD_LOGIC;
-signal REGMAX1 : STD_LOGIC_VECTOR (9 downto 0);
-signal COLLUMN_AWAL1 :  STD_LOGIC_VECTOR (9 downto 0);
-signal POS1 : STD_LOGIC_VECTOR (9 downto 0);
-signal F_POS1 : STD_LOGIC_VECTOR (9 downto 0);
-signal GND1 : STD_LOGIC;
-
+signal THD : STD_LOGIC_VECTOR (9 downto 0);
+signal COUNT_COLLUMN : STD_LOGIC_VECTOR (9 downto 0);
+signal YTHD : STD_LOGIC;
+signal COUNT_LEBAR : STD_LOGIC_VECTOR (9 downto 0);
+signal BA : STD_LOGIC;
+signal REGMAX : STD_LOGIC_VECTOR (9 downto 0);
+signal COLLUMN_AWAL :  STD_LOGIC_VECTOR (9 downto 0);
+signal POS : STD_LOGIC_VECTOR (9 downto 0);
+signal F_POS : STD_LOGIC_VECTOR (9 downto 0);
 
 begin
 	
@@ -110,65 +109,68 @@ begin
 	         CLK => CLK,
              HREF => HREF,
              RST => RST,
-             COUNT_COLLUMN => COUNT_COLLUMN1 );
+             COUNT_COLLUMN => COUNT_COLLUMN);
          
 	COUNTER_LEBAR2 : COUNTER_LEBAR 
     Port map( Y => Y,
               CLK => CLK,
               HREF => HREF,
               RST => RST,
-              YTHD => YTHD1,
-              COUNT_LEBAR => COUNT_LEBAR1);
+              YTHD => YTHD,
+              COUNT_LEBAR => COUNT_LEBAR);
               
     REGISTER_MAX2 : REGISTER_MAX
-    Port map( A => REGMAX1,
-              B => COUNT_LEBAR1,
-              BA  => BA1,
-              DATA => COUNT_LEBAR1,
+    Port map( A => REGMAX,
+              B => COUNT_LEBAR,
+              BA  => BA,
+              DATA => COUNT_LEBAR,
               CLK => CLK,
               VSYNC => VSYNC,
               RST => RST,
-              REGMAX => REGMAX1);
+              REGMAX => REGMAX);
               
     REGISTER_COLLUMN_AWAL2 : REGISTER_COLLUMN_AWAL
-    Port map( DATA => COUNT_COLLUMN1,
-              LOAD_EN => COUNT_LEBAR1,
+    Port map( DATA => COUNT_COLLUMN,
+              LOAD_EN => COUNT_LEBAR,
               CLK => CLK,
               VSYNC => VSYNC,
               RST => RST,
-              COLLUMN_AWAL => COLLUMN_AWAL1);
+              COLLUMN_AWAL => COLLUMN_AWAL);
               
     Register_Final2 : Register_Final
-    Port map( DATA => COLLUMN_AWAL1,
-              LOAD_EN  => BA1,
+    Port map( DATA => COLLUMN_AWAL,
+              LOAD_EN  => BA,
               CLK => CLK,
               VSYNC => VSYNC,
               RST => RST,
-              POS => POS1);	
+              POS => POS);	
               
     FINAL_POSITION2 : FINAL_POSITION
-    Port map( POS => POS1,
-              REGMAX => REGMAX1,
-              F_POS => F_POS1 ); 
+    Port map( POS => POS,
+              REGMAX => REGMAX,
+              F_POS => F_POS); 
               
    Size_Buffer2 : Size_Buffer 
-   Port map ( DATA => REGMAX1,
+   Port map ( DATA => REGMAX,
               VSYNC => VSYNC,
+              CLK => CLK,
               RST => RST,
               Size_B => Size_B);
                
    Position_Buffer2 : Position_Buffer 
-   Port map ( DATA => F_POS1,
+   Port map ( DATA => F_POS,
               VSYNC => VSYNC,
+              CLK => CLK,
               RST => RST,
               Pos_B => Pos_B);
               
    SR_LATCH2 : SR_LATCH 
    Port map(  VSYNC => VSYNC,
-              GND => GND1,
+              GND => GND,
               RST => RST,
               Q => Q,
               QBAR => QBAR);
   
 
 end Behavioral;
+
