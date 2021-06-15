@@ -21,7 +21,8 @@ begin
 	begin
 		if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- jika direset, belum enable, atau terdapat cahaya
 			ticks <= "0000000000";
-			
+			srl_rst <= '0';
+			srl_set <= '0';
 		elsif rising_edge(VSYNC)and NLC_EN = '1' and CAHAYA = '0' and RST = '0' then
 			if ticks = "0100111001" then -- 5 detik (0 - 313)
 				srl_rst <= '1'; -- FINISH = 0 -> NEXT DIAM DI TEMPAT
@@ -40,9 +41,9 @@ begin
 	process( rst,srl_set, srl_rst, CAHAYA) -- SR LATCH
 	begin
 		if falling_edge(rst) or srl_set = '1' or CAHAYA = '1' then 
-			FINISH <= '1'; -- DEFAULT 1
-		elsif  srl_rst = '1' then 
-			FINISH <= '0';
+			FINISH <= '1'; -- DEFAULT 1, muter
+		elsif rst = '1' and srl_rst = '1' then 
+			FINISH <= '0'; -- diam di tempat
 		end if;
 	end process;
 	
