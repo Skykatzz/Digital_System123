@@ -42,7 +42,7 @@ begin
 	begin
 		if falling_edge(rst) or srl_set = '1' or CAHAYA = '1' then 
 			FINISH <= '1'; -- DEFAULT 1, muter
-		elsif rst = '1' and srl_rst = '1' then 
+		elsif rst = '1' or srl_rst = '1' then 
 			FINISH <= '0'; -- diam di tempat
 		end if;
 	end process;
