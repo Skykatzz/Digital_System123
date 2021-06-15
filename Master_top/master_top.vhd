@@ -59,7 +59,7 @@ end component;
 	
 --between thresholding and speedndir:
 signal Pos_B, Size_B : STD_LOGIC_VECTOR (9 downto 0);
-signal QBAR : std_logic;
+signal QBAR : std_logic; -- ini apa ya?
 
 -- between measurement and speedndir:
 signal RMF_DIRECTION, LMF_DIRECTION : std_logic;
@@ -77,9 +77,9 @@ begin
 TLSND : TOPLEVELSPEEDNDIR
 port map(
 	-- FROM THRESHOLDING:
-	POSITION => POSITION,
-	SIZE => SIZE,
-	CTRL_EN => CTRL_EN,
+	POSITION => Pos_B,
+	SIZE => Size_B,
+	CTRL_EN => CTRL_EN, -- ini ke mana?
 	-- FROM MEASUREMENT
 	RMF_DIRECTION => RMF_DIRECTION,
 	RMF_SPEED => RMF_SPEED,
