@@ -104,12 +104,14 @@ END COMPONENT;
 	
 
 -- ------------SIGNALS--------------
--- between register parts 
+-- between register parts
 	
- 
+--between pixelcapture and thresholding:	
+signal pixelout : STD_LOGIC_VECTOR (7 downto 0);
+
 --between thresholding and speedndir:
 signal Pos_B, Size_B : STD_LOGIC_VECTOR (9 downto 0);
-signal QBAR : std_logic; -- ini apa ya?
+signal QBAR : std_logic; --IJA HARUS REVISI!
 
 -- between measurement and speedndir:
 signal RMF_DIRECTION, LMF_DIRECTION : std_logic;
@@ -119,9 +121,6 @@ signal RMF_SPEED, LMF_SPEED : std_logic_vector (7 downto 0);
 signal RM_DIRECTION, LM_DIRECTION : std_logic;
 signal RM_SPEED, LM_SPEED : std_logic_vector (7 downto 0);
 
--- from camera:
-signal VSYNC:  STD_LOGIC;
-
 begin
 
 TLSND : TOPLEVELSPEEDNDIR
@@ -129,7 +128,7 @@ port map(
 	-- FROM THRESHOLDING:
 	POSITION => Pos_B,
 	SIZE => Size_B,
-	CTRL_EN => CTRL_EN, -- ini ke mana?
+	CTRL_EN => QBAR, -- ini ke mana?, IJA HARUS REVISI!
 	-- FROM MEASUREMENT
 	RMF_DIRECTION => RMF_DIRECTION,
 	RMF_SPEED => RMF_SPEED,
@@ -149,10 +148,10 @@ port map(
 TLTHD : TOPLEVEL_TGD
 port map(	
 	-- FROM PIXEL CAPTURE or PIXEL CAPTURE:
-	CLK => CLK,
-        HREF => HREF,
-        VSYNC => VSYNC, -- 62.5 Hz
-        Y => Y,
+	CLK => CLK,--25 MHz PCLK_in 
+        HREF => HREF,--HREF
+        VSYNC => VSYNC, -- VSYNC 62.5 Hz
+        Y => Y, --pixelout
 	-- RESET:
 	RST => RST,
 	-- TO DECIDE SPEED AND DIRECTION :
@@ -165,14 +164,12 @@ port map(
 TLCAM : toplevel PORT MAP (
       sioc => sioc,
       siod => siod,
+      reset => reset,
       pwdn => pwdn,
-      fsioc => fsioc,
-      pclk_in => pclk_in,
-      href => href,
-      vsync => vsync,
+      fsio => xclk,
+      pclk_in => clk,
       config_finished => config_finished,
-      halfclk => halfclk,
-      PixelOut => Pixelout,	
+      RST  => RST,
       d0   => d0,
       d1   => d1,
       d2   => d2,    
