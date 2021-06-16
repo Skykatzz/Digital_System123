@@ -11,11 +11,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity SR_LATCH is
-    Port ( VSYNC : in STD_LOGIC;
-           GND : in STD_LOGIC;
-           RST : in STD_LOGIC;
+    Port ( VSYNC : in STD_LOGIC; --Reset
+           SET : in STD_LOGIC;
+           RST : in STD_LOGIC; --Reset System
            Q : inout STD_LOGIC;
-           QBAR : inout STD_LOGIC);
+           READY : inout STD_LOGIC);
 end SR_LATCH;
 
 architecture Behavioral of SR_LATCH is
@@ -24,20 +24,20 @@ signal a : std_logic := '1';
 signal b : std_logic := '0';
 
 begin
-    process(RST, VSYNC, GND, a, b)
+    process(RST, VSYNC, SET, a, b)
     begin
         if RST = '1' then
              a <= '1';
              b <= '0';
 
         else a <= VSYNC nor b;
-             b <= GND nor a;
+             b <= SET nor a;
 
         end if;
 
     end process;
 
     Q <= a;
-    QBAR <= b;
+    READY <= b;
 
 end Behavioral;
