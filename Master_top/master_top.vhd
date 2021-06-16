@@ -2,8 +2,30 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity master_top is --yg nyambung ke port luar board
-Port (	
-	RST : in  STD_LOGIC
+Port (	--camera + pixel capture
+	   sioc : out  STD_LOGIC;
+           siod : out  STD_LOGIC;
+           pwdn  : out   STD_LOGIC;
+           fsioc : in  STD_LOGIC; --clock utk register 400 khz
+           config_finished : out STD_LOGIC; -- memberi tau register sudah selesai , optional
+           pclk_in    : in  STD_LOGIC -- clock dari camera 24 mhz
+           vsync   : in  STD_LOGIC;
+           href    : in  STD_LOGIC;
+           halfclk  : out STD_LOGIC;
+           PixelOut: out STD_LOGIC_VECTOR (7 downto 0);-- data pixel tanpa cb cr , hanya y saja
+           d0 : in std_logic;
+           d1 : in std_logic;
+           d2 : in std_logic;
+           d3 : in std_logic;
+           d4 : in std_logic;
+           d5 : in std_logic;
+           d6 : in std_logic;
+           d7 : in std_logic;
+           mclk : out std_logic; --generate clock ke camera
+	--reset ke camera module
+           reset: out std_logic;
+	--reset yg button
+           rst : in  STD_LOGIC
 );
 end master_top;
 
@@ -28,29 +50,8 @@ Port (  -- FROM THRESHOLDING:
         RM_DIRECTION : out std_logic ;
         RM_SPEED : out std_logic_vector (7 downto 0);
         LM_DIRECTION : out std_logic ;
-        LM_SPEED : out std_logic_vector (7 downto 0);
-	--camera + pixel capture
-	sioc : out  STD_LOGIC;
-           siod : out  STD_LOGIC;
-           pwdn  : out   STD_LOGIC;
-           fsioc : in  STD_LOGIC; --clock utk register 400 khz
-           config_finished : out STD_LOGIC; -- memberi tau register sudah selesai , optional
-           pclk_in    : in  STD_LOGIC -- clock dari camera 24 mhz
-           vsync   : in  STD_LOGIC;
-           href    : in  STD_LOGIC;
-           halfclk  : out STD_LOGIC;
-           PixelOut: out STD_LOGIC_VECTOR (7 downto 0);-- data pixel tanpa cb cr , hanya y saja
-           d0 : in std_logic;
-           d1 : in std_logic;
-           d2 : in std_logic;
-           d3 : in std_logic;
-           d4 : in std_logic;
-           d5 : in std_logic;
-           d6 : in std_logic;
-           d7 : in std_logic;
-           mclk : out std_logic; --generate clock ke camera
-           reset: out std_logic;
-           rst : in  STD_LOGIC
+        LM_SPEED : out std_logic_vector (7 downto 0)
+	
 );
 end component;
 
