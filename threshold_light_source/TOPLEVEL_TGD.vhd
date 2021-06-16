@@ -7,12 +7,11 @@ entity TOPLEVEL_TGD is
            RST : in  STD_LOGIC;
            HREF : in STD_LOGIC;
            VSYNC : in  STD_LOGIC;
-           Y : inout STD_LOGIC_VECTOR (7 downto 0);
+           Y : in STD_LOGIC_VECTOR (7 downto 0); --only in, Y from Pixel Capture
            Size_B : out  STD_LOGIC_VECTOR (9 downto 0);
            Pos_B : out  STD_LOGIC_VECTOR (9 downto 0);
            Q : inout STD_LOGIC;
-           QBAR : inout STD_LOGIC;
-           GND : in STD_LOGIC);
+           READY : inout STD_LOGIC);
 end TOPLEVEL_TGD;
 
 architecture Behavioral of TOPLEVEL_TGD is
@@ -40,11 +39,11 @@ component Position_Buffer is
 end component;
 
 component SR_LATCH is
-    Port ( VSYNC : in STD_LOGIC;
-           GND : in STD_LOGIC;
-           RST : in STD_LOGIC;
+    Port ( VSYNC : in STD_LOGIC; --Reset
+           SET : in STD_LOGIC;
+           RST : in STD_LOGIC; --Reset System
            Q : inout STD_LOGIC;
-           QBAR : inout STD_LOGIC);
+           READY : inout STD_LOGIC);
 end component;
 
 component Register_Final is
@@ -166,11 +165,10 @@ begin
               
    SR_LATCH2 : SR_LATCH 
    Port map(  VSYNC => VSYNC,
-              GND => GND,
+              SET => '0', 
               RST => RST,
               Q => Q,
-              QBAR => QBAR);
+              READY => READY);
   
 
 end Behavioral;
-
