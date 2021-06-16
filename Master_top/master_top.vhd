@@ -25,7 +25,23 @@ Port (	--camera + pixel capture
 	--reset ke camera module
            reset: out std_logic;
 	--reset yg button
-           rst : in  STD_LOGIC
+           rst : in  STD_LOGIC;
+	--pwm gen
+	output_kecepatan_kiri  : out  STD_LOGIC;
+	output_kecepatan_kanan : out  STD_LOGIC;
+	output_direction_kiri : out STD_LOGIC;
+	output_direction_kanan : out STD_LOGIC;
+	--ab decoder
+	A1 : in  STD_LOGIC;
+	B1 : in  STD_LOGIC;
+	A2 : in  STD_LOGIC;
+	B2 : in  STD_LOGIC;
+	--clock for pwm gen n measurement
+	clock_2khz : in STD_LOGIC;
+	clock_625khz :in STD_LOGIC;
+	---segment
+        Anodectivate : out STD_LOGIC_VECTOR (3 downto 0);-- 4 Anode signals
+        LEDout : out STD_LOGIC_VECTOR (6 downto 0)-- Cathode patterns of 7-segment 
 );
 end master_top;
 
@@ -54,7 +70,38 @@ Port (  -- FROM THRESHOLDING:
 	
 );
 end component;
+-- KELOMPOK SPEED GENERATOR & MEASUREMENT :
+component top_top is
+Port ( 
+---input ke motor controller
+input_kecepatan_kiri  : in  STD_LOGIC_VECTOR (7 downto 0);
+input_kecepatan_kanan : in  STD_LOGIC_VECTOR (7 downto 0);
+input_direction_kiri : in STD_LOGIC;
+input_direction_kanan : in STD_LOGIC;
+---output ke motor
+output_kecepatan_kiri  : out  STD_LOGIC;
+output_kecepatan_kanan : out  STD_LOGIC;
+output_direction_kiri : out STD_LOGIC;
+output_direction_kanan : out STD_LOGIC;
+---feedback ke motor
+A1 : in  STD_LOGIC;
+B1 : in  STD_LOGIC;
+A2 : in  STD_LOGIC;
+B2 : in  STD_LOGIC;
 
+feedback_kecepatan_kiri  : out  STD_LOGIC_VECTOR (7 downto 0);
+feedback_kecepatan_kanan : out  STD_LOGIC_VECTOR (7 downto 0);
+feedback_direction_kiri :  out STD_LOGIC;
+feedback_direction_kanan : out STD_LOGIC;
+clock_2khz : in STD_LOGIC;
+clock_625khz :in STD_LOGIC;
+reset : in STD_LOGIC;
+---segment
+Anodectivate : out STD_LOGIC_VECTOR (3 downto 0);-- 4 Anode signals
+LEDout : out STD_LOGIC_VECTOR (6 downto 0)-- Cathode patterns of 7-segment 
+
+);
+end component;
 -- KELOMPOK LIGHT SOURCE DETECTION & THRESHOLDING :	
 component TOPLEVEL_TGD is 
 Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
@@ -119,7 +166,7 @@ signal RMF_SPEED, LMF_SPEED : std_logic_vector (7 downto 0);
 
 -- between PWM_generator and speedndir:
 signal RM_DIRECTION, LM_DIRECTION : std_logic;
-signal RM_SPEED, LM_SPEED : std_logic_vector (7 downto 0);
+signal RM_SPEED, LM_SPEED : std_logic;
 
 begin
 
@@ -159,6 +206,35 @@ port map(
         Pos_B => Pos_B,
         Q => Q,
         READY => READY
+);
+-- Top level Motor gen & measurement
+TLPGSM : top_top 
+PORT MAP (
+input_kecepatan_kiri  => LM_SPEED,
+input_kecepatan_kanan => RM_SPEED,
+input_direction_kiri  => LM_DIRECTION,
+input_direction_kanan => RM_DIRECTION,
+---output ke motor
+output_kecepatan_kiri  => output_kecepatan_kiri,
+output_kecepatan_kanan => output_kecepatan_kiri,
+output_direction_kiri  => output_direction_kiri,
+output_direction_kanan => output_direction_kanan,
+---feedback ke motor
+A1 => A1,
+B1 => B1,
+A2 => A2,
+B2 => B2,
+
+feedback_kecepatan_kiri  =>LMF_SPEED,
+feedback_kecepatan_kanan =>RMF_SPEED,
+feedback_direction_kiri =>LMF_DIRECTION,
+feedback_direction_kanan =>RMF_DIRECTION,
+clock_2khz => clock_2khz, -- CLOCK 2 KHZ
+clock_625khz => clock_625khz, -- CLOCK 62,5 KHZ
+reset => reset,
+---segment
+Anodectivate => Anodectivate,
+LEDout => LEDout
 );
 -- Top level Camera
 TLCAM : toplevel PORT MAP (
