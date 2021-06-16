@@ -68,7 +68,7 @@ Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
         Size_B : out  STD_LOGIC_VECTOR (9 downto 0);
         Pos_B : out  STD_LOGIC_VECTOR (9 downto 0);
         Q : inout STD_LOGIC;
-        QBAR : inout STD_LOGIC);
+        READY : inout STD_LOGIC);
 end component;
 --Camera control & pixel capture
 	COMPONENT toplevel
@@ -111,7 +111,7 @@ signal pixelout : STD_LOGIC_VECTOR (7 downto 0);
 
 --between thresholding and speedndir:
 signal Pos_B, Size_B : STD_LOGIC_VECTOR (9 downto 0);
-signal QBAR : std_logic; --IJA HARUS REVISI!
+signal READY : std_logic;
 
 -- between measurement and speedndir:
 signal RMF_DIRECTION, LMF_DIRECTION : std_logic;
@@ -128,7 +128,7 @@ port map(
 	-- FROM THRESHOLDING:
 	POSITION => Pos_B,
 	SIZE => Size_B,
-	CTRL_EN => QBAR, -- ini ke mana?, IJA HARUS REVISI!
+	CTRL_EN => READY, 
 	-- FROM MEASUREMENT
 	RMF_DIRECTION => RMF_DIRECTION,
 	RMF_SPEED => RMF_SPEED,
@@ -158,7 +158,7 @@ port map(
         Size_B => Size_B,
         Pos_B => Pos_B,
         Q => Q,
-        QBAR => QBAR
+        READY => READY
 );
 -- Top level Camera
 TLCAM : toplevel PORT MAP (
