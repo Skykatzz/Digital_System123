@@ -71,7 +71,7 @@ Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
         READY : inout STD_LOGIC);
 end component;
 --Camera control & pixel capture
-	COMPONENT toplevel
+	COMPONENT toplevel IS
 PORT(sioc : out  STD_LOGIC;
                siod : out  STD_LOGIC;
                pwdn  : out   STD_LOGIC;
