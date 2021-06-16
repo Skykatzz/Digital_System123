@@ -5,7 +5,7 @@ entity TOPLEVELSPEEDNDIR is
 Port (  -- FROM THRESHOLDING:
 		  POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
 		  SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
-		  CTRL_EN : in  STD_LOGIC;
+		  READY : in  STD_LOGIC;
 		  -- FROM MEASUREMENT:
 		  RMF_DIRECTION : in std_logic ;
 		  RMF_SPEED : in std_logic_vector (7 downto 0);
@@ -110,7 +110,7 @@ datapath_S2US : S2US
 datapath_Ctrl : Ctrl
 	port map(POSITION => POSITION,
 				SIZE => SIZE,
-				CTRL_EN  => CTRL_EN,
+				CTRL_EN  => READY,
 				FIN_DELAY => FIN_DELAY,
 				GOAL_LEFT => GOAL_LEFT,
 				GOAL_RIGHT => GOAL_RIGHT,
@@ -121,7 +121,7 @@ datapath_nolightcounter : nolightcounter
 				FINISH => FIN_DELAY,
 				VSYNC => VSYNC,
 				RST => RST,
-				NLC_EN => CTRL_EN);
+				NLC_EN => READY);
 				
 datapath_US2S : US2S
 	port map(R_Feedback => R_FEEDBACK,
