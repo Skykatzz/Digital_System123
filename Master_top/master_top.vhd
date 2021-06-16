@@ -8,7 +8,7 @@ Port (	--camera + pixel capture
            pwdn  : out   STD_LOGIC;
            fsioc : in  STD_LOGIC; --clock utk register 400 khz
            --config_finished : out STD_LOGIC; -- memberi tau register sudah selesai , optional
-           pclk_in    : in  STD_LOGIC -- clock dari camera 24 mhz
+           pclk_in    : in  STD_LOGIC; -- clock dari camera 24 mhz
            vsync   : in  STD_LOGIC;
            href    : in  STD_LOGIC;
            --halfclk  : out STD_LOGIC; -- 1/2 clock 24mhz
