@@ -135,9 +135,9 @@ PORT(
         advance  : IN std_logic;
         rst   : in STD_LOGIC;
         command  : OUT std_logic_vector(15 downto 0);
-        finished : OUT std_logic
-        );
+        finished : OUT std_logic);	
 END COMPONENT;
+	
 -- ------------SIGNALS--------------
 -- between register parts 
 	
