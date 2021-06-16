@@ -23,7 +23,7 @@ process (RST, CLK, VSYNC, LOAD_EN, DATA)
     begin
         if RST = '1' then
             Final <= (others => '0');
-        elsif rising_edge(CLK) or CLK = '1' then
+        elsif rising_edge(CLK) then
             if VSYNC = '1' then
                 Final <= (others => '0');
             elsif LOAD_EN = '1' then
