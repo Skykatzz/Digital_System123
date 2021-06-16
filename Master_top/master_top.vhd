@@ -101,8 +101,6 @@ END COMPONENT;
 -- component xxx is
 -- Port ( );
 -- end component;
-
--- KELOMPOK CAMERA + PIXEL CAPTURE
 	
 
 -- ------------SIGNALS--------------
