@@ -6,7 +6,7 @@ use ieee.std_logic_unsigned.All;
 entity Size_Buffer is
     Port ( DATA : in  STD_LOGIC_VECTOR (9 downto 0);
            VSYNC : in  STD_LOGIC;
-           CLK : in STD_LOGIC;
+           NOT_CLK : in STD_LOGIC;
            RST : in  STD_LOGIC;
            Size_B : out  STD_LOGIC_VECTOR (9 downto 0));
 end Size_Buffer;
@@ -17,14 +17,12 @@ signal size: STD_LOGIC_VECTOR (9 downto 0);
 
 begin
 
-process(DATA, VSYNC, CLK, RST) 
+process(DATA, VSYNC, NOT_CLK, RST) 
 begin
         if RST = '1' then
             size <= (others => '0');
-        elsif rising_edge (CLK) then
-            if VSYNC = '1' then
-                size <= DATA;
-            end if;
+        elsif rising_edge (NOT_CLK) then
+            size <= DATA;
         end if;
     end process;
 
