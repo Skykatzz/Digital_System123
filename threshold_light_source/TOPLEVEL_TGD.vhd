@@ -1,7 +1,27 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 30.05.2021 21:05:09
+-- Design Name: 
+-- Module Name: TOPLEVEL_TGD - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity TOPLEVEL_TGD is
+entity TOPLEVEL_THD is
     Port ( 
            CLK : in  STD_LOGIC;
            RST : in  STD_LOGIC;
@@ -12,9 +32,9 @@ entity TOPLEVEL_TGD is
            Pos_B : out  STD_LOGIC_VECTOR (9 downto 0);
            Q : inout STD_LOGIC;
            READY : inout STD_LOGIC);
-end TOPLEVEL_TGD;
+end TOPLEVEL_THD;
 
-architecture Behavioral of TOPLEVEL_TGD is
+architecture Behavioral of TOPLEVEL_THD is
 
 component FINAL_POSITION is
     Port ( POS : in STD_LOGIC_VECTOR (9 downto 0);
@@ -24,7 +44,7 @@ end component;
 
 component Size_Buffer is
     Port ( DATA : in  STD_LOGIC_VECTOR (9 downto 0);
-           CLK : in STD_LOGIC;
+           NOT_CLK : in STD_LOGIC;
            VSYNC : in  STD_LOGIC;
            RST : in  STD_LOGIC;
            Size_B : out  STD_LOGIC_VECTOR (9 downto 0));
@@ -32,7 +52,7 @@ end component;
 
 component Position_Buffer is
     Port ( DATA : in  STD_LOGIC_VECTOR (9 downto 0);
-           CLK : in STD_LOGIC;
+           NOT_CLK : in STD_LOGIC;
            VSYNC : in  STD_LOGIC;
            RST : in  STD_LOGIC;
            Pos_B : out  STD_LOGIC_VECTOR (9 downto 0));
@@ -152,14 +172,14 @@ begin
    Size_Buffer2 : Size_Buffer 
    Port map ( DATA => REGMAX,
               VSYNC => VSYNC,
-              CLK => CLK,
+              NOT_CLK => HREF,
               RST => RST,
               Size_B => Size_B);
                
    Position_Buffer2 : Position_Buffer 
    Port map ( DATA => F_POS,
               VSYNC => VSYNC,
-              CLK => CLK,
+              NOT_CLK => HREF,
               RST => RST,
               Pos_B => Pos_B);
               
