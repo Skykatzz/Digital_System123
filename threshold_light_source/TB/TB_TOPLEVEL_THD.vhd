@@ -1,7 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-library IEEE;
 use IEEE.STD_LOGIC_arith.ALL;
 use IEEE.STD_LOGIC_unsigned.ALL;
  
@@ -18,8 +17,8 @@ ARCHITECTURE behavior OF TB_TOPLEVEL_THD IS
           HREF : in STD_LOGIC;
           VSYNC : in  STD_LOGIC;
           Y : in STD_LOGIC_VECTOR (7 downto 0); --only in, Y from Pixel Capture
-          Size_B : out  STD_LOGIC_VECTOR (9 downto 0);
-          Pos_B : out  STD_LOGIC_VECTOR (9 downto 0);
+          SIZE_B : out  STD_LOGIC_VECTOR (9 downto 0);
+          POS_B : out  STD_LOGIC_VECTOR (9 downto 0);
           Q : inout STD_LOGIC;
           READY : inout STD_LOGIC);--tidak perlu 
     END COMPONENT;
@@ -47,7 +46,7 @@ ARCHITECTURE behavior OF TB_TOPLEVEL_THD IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: TOPLEVEL_THD PORT MAP (
+    uut: TOPLEVEL_THD PORT MAP (
              CLK => CLK,
              RST => RST,
              HREF => HREF ,
@@ -57,9 +56,8 @@ BEGIN
              Pos_B => Pos_B,
              Q => Q,
              READY => READY);
-		  
-
-	 clk_process :process
+		 
+	clk_process :process
           begin
               CLK <= '1';
               wait for clk_period/2;
@@ -76,7 +74,7 @@ BEGIN
               wait;
            end process;  
      
- vsync_href_proc :process
+     vsync_href_proc :process
            variable href_loop :integer;
            variable pixel_loop :integer;
            begin
@@ -95,27 +93,25 @@ BEGIN
            wait for 10*line_period;
         end process;
 
-Y_proc :process
-    begin        
-        wait for 20*line_period;
-        Y <= "01001001";
-        wait for clk_period;
-        Y <= "01110101";
-        wait for clk_period;
-        Y <= "11010101";
-        wait for clk_period;
-        Y <= "11011101";
-        wait for clk_period;
-        Y <= "11110101";
-        wait for clk_period;
-        Y <= "11010100";
-        wait for clk_period;
-        Y <= "11111101";
-        wait for clk_period;
-        Y <= "01111101";
-        wait;
-     end process;   
-        
-        
-        
+     Y_proc :process
+        begin        
+            wait for 20*line_period;
+            Y <= "01001001";
+            wait for clk_period;
+            Y <= "01110101";
+            wait for clk_period;
+            Y <= "11010101";
+            wait for clk_period;
+            Y <= "11011101";
+            wait for clk_period;
+            Y <= "11110101";
+            wait for clk_period;
+            Y <= "11010100";
+            wait for clk_period;
+            Y <= "11111101";
+            wait for clk_period;
+            Y <= "01111101";
+            wait;
+            
+         end process;   
       END;
