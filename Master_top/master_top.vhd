@@ -70,6 +70,7 @@ Port (  -- FROM THRESHOLDING:
 	
 );
 end component;
+	
 -- KELOMPOK SPEED GENERATOR & MEASUREMENT :
 component top_top is
 Port ( 
@@ -162,14 +163,15 @@ signal READY : std_logic;
 
 -- between measurement and speedndir:
 signal RMF_DIRECTION, LMF_DIRECTION : std_logic;
-signal RMF_SPEED, LMF_SPEED : std_logic_vector (7 downto 0);
+signal RMF_SPEED, LMF_SPEED : std_logic_vector(7 downto 0);
 
 -- between PWM_generator and speedndir:
 signal RM_DIRECTION, LM_DIRECTION : std_logic;
-signal RM_SPEED, LM_SPEED : std_logic;
+signal RM_SPEED, LM_SPEED : std_logic_vector(7 downto 0);
 
 begin
-
+	
+-- TOP LEVEL SPEEDNDIR
 TLSND : TOPLEVELSPEEDNDIR
 port map(
 	-- FROM THRESHOLDING:
@@ -181,7 +183,7 @@ port map(
 	RMF_SPEED => RMF_SPEED,
 	LMF_DIRECTION => LMF_DIRECTION,
 	LMF_SPEED => LMF_SPEED,
-	VSYNC => VSYNC,
+	VSYNC => vsync,
 	-- RESET:
 	RST => RST,
 	-- TO PWM:
@@ -207,6 +209,7 @@ port map(
         Q => Q,
         READY => READY
 );
+	
 -- Top level Motor gen & measurement
 TLPGSM : top_top 
 PORT MAP (
@@ -236,6 +239,7 @@ reset => reset,
 Anodectivate => Anodectivate,
 LEDout => LEDout
 );
+	
 -- Top level Camera
 TLCAM : toplevel PORT MAP (
       sioc => sioc,
@@ -264,4 +268,3 @@ TLCAM : toplevel PORT MAP (
 
 
 end Behavioral;
-
