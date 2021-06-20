@@ -105,7 +105,7 @@ Port (
 end component;
 	
 -- KELOMPOK LIGHT SOURCE DETECTION & THRESHOLDING :	
-component TOPLEVEL_TGD is 
+component TOPLEVEL_THD is 
 Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
 	CLK : in  STD_LOGIC;
         HREF : in STD_LOGIC;
@@ -195,7 +195,7 @@ port map(
 );
 	
 	
-TLTHD : TOPLEVEL_TGD
+TLTHD : TOPLEVEL_THD
 port map(	
 	-- FROM PIXEL CAPTURE :
 	CLK => pclk_in,--25 MHz CLK
@@ -214,32 +214,31 @@ port map(
 -- Top level Motor gen & measurement
 TLPGSM : top_top 
 PORT MAP (
-input_kecepatan_kiri  => LM_SPEED,
-input_kecepatan_kanan => RM_SPEED,
-input_direction_kiri  => LM_DIRECTION,
-input_direction_kanan => RM_DIRECTION,
----output ke motor
-output_kecepatan_kiri  => output_kecepatan_kiri,
-output_kecepatan_kanan => output_kecepatan_kiri,
-output_direction_kiri  => output_direction_kiri,
-output_direction_kanan => output_direction_kanan,
----feedback ke motor
-A1 => A1,
-B1 => B1,
-A2 => A2,
-B2 => B2,
+	input_kecepatan_kiri  => LM_SPEED,
+	input_kecepatan_kanan => RM_SPEED,
+	input_direction_kiri  => LM_DIRECTION,
+	input_direction_kanan => RM_DIRECTION,
+	---output ke motor
+	output_kecepatan_kiri  => output_kecepatan_kiri,
+	output_kecepatan_kanan => output_kecepatan_kiri,
+	output_direction_kiri  => output_direction_kiri,
+	output_direction_kanan => output_direction_kanan,
+	---feedback ke motor
+	A1 => A1,
+	B1 => B1,
+	A2 => A2,
+	B2 => B2,
 
-feedback_kecepatan_kiri  =>LMF_SPEED,
-feedback_kecepatan_kanan =>RMF_SPEED,
-feedback_direction_kiri =>LMF_DIRECTION,
-feedback_direction_kanan =>RMF_DIRECTION,
-clock_2khz => clock_2khz, -- CLOCK 2 KHZ
-clock_625khz => clock_625khz, -- CLOCK 62,5 KHZ
-reset => reset,
----segment
-Anodectivate => Anodectivate,
-LEDout => LEDout
-);
+	feedback_kecepatan_kiri  =>LMF_SPEED,
+	feedback_kecepatan_kanan =>RMF_SPEED,
+	feedback_direction_kiri =>LMF_DIRECTION,
+	feedback_direction_kanan =>RMF_DIRECTION,
+	clock_2khz => clock_2khz, -- CLOCK 2 KHZ
+	clock_625khz => clock_625khz, -- CLOCK 62,5 KHZ
+	reset => reset,
+	---segment
+	Anodectivate => Anodectivate,
+	LEDout => LEDout);
 	
 -- Top level Camera
 TLCAM : toplevel PORT MAP (
