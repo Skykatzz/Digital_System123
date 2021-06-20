@@ -74,35 +74,36 @@ end component;
 -- KELOMPOK SPEED GENERATOR & MEASUREMENT :
 component top_top is
 Port ( 
----input ke motor controller
-input_kecepatan_kiri  : in  STD_LOGIC_VECTOR (7 downto 0);
-input_kecepatan_kanan : in  STD_LOGIC_VECTOR (7 downto 0);
-input_direction_kiri : in STD_LOGIC;
-input_direction_kanan : in STD_LOGIC;
----output ke motor
-output_kecepatan_kiri  : out  STD_LOGIC;
-output_kecepatan_kanan : out  STD_LOGIC;
-output_direction_kiri : out STD_LOGIC;
-output_direction_kanan : out STD_LOGIC;
----feedback ke motor
-A1 : in  STD_LOGIC;
-B1 : in  STD_LOGIC;
-A2 : in  STD_LOGIC;
-B2 : in  STD_LOGIC;
+	---input ke motor controller
+	input_kecepatan_kiri  : in  STD_LOGIC_VECTOR (7 downto 0);
+	input_kecepatan_kanan : in  STD_LOGIC_VECTOR (7 downto 0);
+	input_direction_kiri : in STD_LOGIC;
+	input_direction_kanan : in STD_LOGIC;
+	---output ke motor
+	output_kecepatan_kiri  : out  STD_LOGIC;
+	output_kecepatan_kanan : out  STD_LOGIC;
+	output_direction_kiri : out STD_LOGIC;
+	output_direction_kanan : out STD_LOGIC;
+	---feedback ke motor
+	A1 : in  STD_LOGIC;
+	B1 : in  STD_LOGIC;
+	A2 : in  STD_LOGIC;
+	B2 : in  STD_LOGIC;
 
-feedback_kecepatan_kiri  : out  STD_LOGIC_VECTOR (7 downto 0);
-feedback_kecepatan_kanan : out  STD_LOGIC_VECTOR (7 downto 0);
-feedback_direction_kiri :  out STD_LOGIC;
-feedback_direction_kanan : out STD_LOGIC;
-clock_2khz : in STD_LOGIC;
-clock_625khz :in STD_LOGIC;
-reset : in STD_LOGIC;
----segment
-Anodectivate : out STD_LOGIC_VECTOR (3 downto 0);-- 4 Anode signals
-LEDout : out STD_LOGIC_VECTOR (6 downto 0)-- Cathode patterns of 7-segment 
+	feedback_kecepatan_kiri  : out  STD_LOGIC_VECTOR (7 downto 0);
+	feedback_kecepatan_kanan : out  STD_LOGIC_VECTOR (7 downto 0);
+	feedback_direction_kiri :  out STD_LOGIC;
+	feedback_direction_kanan : out STD_LOGIC;
+	clock_2khz : in STD_LOGIC;
+	clock_625khz :in STD_LOGIC;
+	reset : in STD_LOGIC;
+	---segment
+	Anodectivate : out STD_LOGIC_VECTOR (3 downto 0);-- 4 Anode signals
+	LEDout : out STD_LOGIC_VECTOR (6 downto 0)-- Cathode patterns of 7-segment 
 
 );
 end component;
+	
 -- KELOMPOK LIGHT SOURCE DETECTION & THRESHOLDING :	
 component TOPLEVEL_TGD is 
 Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
@@ -118,30 +119,30 @@ Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
         Q : inout STD_LOGIC;
         READY : inout STD_LOGIC);
 end component;
+	
 --Camera control & pixel capture
-	COMPONENT toplevel IS
-PORT(sioc : out  STD_LOGIC;
-               siod : out  STD_LOGIC;
-               pwdn  : out   STD_LOGIC;
-               fsioc : in  STD_LOGIC;
-               config_finished : out STD_LOGIC;
-               pclk_in    : in  STD_LOGIC;
-               vsync   : in  STD_LOGIC;
-               href    : in  STD_LOGIC;
-               halfclk  : out STD_LOGIC;
-               PixelOut: out STD_LOGIC_VECTOR (7 downto 0);
-               d0 : in std_logic;
-               d1 : in std_logic;
-               d2 : in std_logic;
-               d3 : in std_logic;
-               d4 : in std_logic;
-               d5 : in std_logic;
-               d6 : in std_logic;
-               d7 : in std_logic;
-               mclk : out std_logic;
-               reset: out std_logic;
-               rst : in  STD_LOGIC
-    );
+COMPONENT toplevel IS
+PORT(   sioc : out  STD_LOGIC;
+        siod : out  STD_LOGIC;
+        pwdn  : out   STD_LOGIC;
+        fsioc : in  STD_LOGIC;
+        config_finished : out STD_LOGIC;
+        pclk_in    : in  STD_LOGIC;
+        vsync   : in  STD_LOGIC;
+        href    : in  STD_LOGIC;
+        halfclk  : out STD_LOGIC;
+        PixelOut: out STD_LOGIC_VECTOR (7 downto 0);
+        d0 : in std_logic;
+        d1 : in std_logic;
+        d2 : in std_logic;
+        d3 : in std_logic;
+        d4 : in std_logic;
+        d5 : in std_logic;
+        d6 : in std_logic;
+        d7 : in std_logic;
+        mclk : out std_logic;
+        reset: out std_logic;
+        rst : in  STD_LOGIC);
 END COMPONENT;
 	
 
@@ -158,7 +159,7 @@ END COMPONENT;
 signal pixelout : STD_LOGIC_VECTOR (7 downto 0);
 
 --between thresholding and speedndir:
-signal Pos_B, Size_B : STD_LOGIC_VECTOR (9 downto 0);
+signal POS_B, SIZE_B : STD_LOGIC_VECTOR (9 downto 0);
 signal READY : std_logic;
 
 -- between measurement and speedndir:
@@ -175,8 +176,8 @@ begin
 TLSND : TOPLEVELSPEEDNDIR
 port map(
 	-- FROM THRESHOLDING:
-	POSITION => Pos_B,
-	SIZE => Size_B,
+	POSITION => POS_B,
+	SIZE => SIZE_B,
 	READY => READY, 
 	-- FROM MEASUREMENT
 	RMF_DIRECTION => RMF_DIRECTION,
@@ -196,11 +197,11 @@ port map(
 	
 TLTHD : TOPLEVEL_TGD
 port map(	
-	-- FROM PIXEL CAPTURE or PIXEL CAPTURE:
-	CLK => CLK,--25 MHz PCLK_in 
+	-- FROM PIXEL CAPTURE :
+	CLK => pclk_in,--25 MHz CLK
         HREF => HREF,--HREF
         VSYNC => VSYNC, -- VSYNC 62.5 Hz
-        Y => Y, --pixelout
+        Y => pixelout , --Y from Pixel Capture
 	-- RESET:
 	RST => RST,
 	-- TO DECIDE SPEED AND DIRECTION :
