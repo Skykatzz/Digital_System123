@@ -1,22 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    14:00:39 04/23/2021 
--- Design Name: 
--- Module Name:    Flipflop - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -38,8 +19,10 @@ entity Flipflop is
 end Flipflop;
 
 architecture Behavioral of Flipflop is
+     
 
 begin
+
 
 	process(RST, CLK)
 		begin 
