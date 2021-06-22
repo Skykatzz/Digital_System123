@@ -53,11 +53,11 @@ begin
     
     process(SIZE, CTRL_EN, FIN_DELAY, TTGL, TTGR) --selector goal speed
     begin
-        if ((FIN_DELAY = '0' AND SIZE = "0001100100") OR CTRL_EN = '0') then
+        if ((FIN_DELAY = '0' AND SIZE < "0001100100") OR CTRL_EN = '0') then
             GOAL_LEFT <= (others => '0');
             GOAL_RIGHT <= (others => '0');
             LIGHT <= '0';
-        elsif (FIN_DELAY = '1' AND CTRL_EN = '1' AND SIZE = "0001100100") then
+        elsif (FIN_DELAY = '1' AND CTRL_EN = '1' AND SIZE < "0001100100") then
             GOAL_LEFT <= "011111111";
             GOAL_RIGHT <= "100000001";
             LIGHT <= '0';
