@@ -1,4 +1,5 @@
 
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -35,7 +36,7 @@ begin
             when x"04" => sreg <= x"0C00"; -- COM3   Lots of stuff, enable scaling, all others off
             when x"05" => sreg <= x"3E00"; -- COM14  PCLK scaling off
 
-            when x"06" => sreg <= x"8C00"; -- RGB444 Set RGB format
+            when x"06" => sreg <= x"8C00"; -- RGB444 Set RGB format,disabled.
             when x"07" => sreg <= x"0400"; -- COM1   no CCIR601
              when x"08" => sreg <= x"4002"; -- COM15  Full 0-255 output, YUV
             when x"09" => sreg <= x"3a04"; -- TSLB   Set UV ordering,  do not auto-reset window
@@ -48,7 +49,7 @@ begin
             when x"10" => sreg <= x"5440"; --x"54e4"; -- MTX6  - colour conversion matrix
             when x"11" => sreg <= x"581e"; --x"589e"; -- MTXS  - Matrix sign and auto contrast
             when x"12" => sreg <= x"3dc0"; -- COM13 - Turn on GAMMA and UV Auto adjust
-            when x"13" => sreg <= x"1100"; -- CLKRC  Prescaler - Fin/(0+1) no scale
+            when x"13" => sreg <= x"1103"; -- CLKRC  Prescaler - Fin/(0+1) no scale
             when x"14" => sreg <= x"1711"; -- HSTART HREF start (high 8 bits)
             when x"15" => sreg <= x"1861"; -- HSTOP  HREF stop (high 8 bits)
             when x"16" => sreg <= x"32A4"; -- HREF   Edge offset and low 3 bits of HSTART and HSTOP
@@ -71,7 +72,7 @@ begin
             when x"27" => sreg <= x"4d40";
             when x"28" => sreg <= x"4e20";
             when x"29" => sreg <= x"6900"; -- GFIX (0x69) 0x00
-            when x"2A" => sreg <= x"6b8a";-- 6b4a->6b8a x6 Multiplier
+            when x"2A" => sreg <= x"6b0a";-- 6b4a -> 6b0a bypasss mult
             when x"2B" => sreg <= x"7410";
             when x"2C" => sreg <= x"8d4f";
             when x"2D" => sreg <= x"8e00";
