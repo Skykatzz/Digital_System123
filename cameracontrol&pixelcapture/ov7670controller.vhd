@@ -56,23 +56,22 @@ begin
                  NS <= setsioc;
 
             when setsioc =>
-                 Load_En <= '1';
                 Set_En <= '1';
                 Count_En <= '1';
                 NS <= resetsioc;
             when resetsioc =>
                 if stop_cond = '0' then 
-                 Shift_En <= '1';
+                 reset_En <= '1';
                  NS <= shift;
                 else 
-                 Shift_En <= '1';
+                 reset_En <= '1';
                  NS <= stop1;
                  end if;
             when stop1 =>
                  Set_En <= '1';
                  NS <= stop2;
             when stop2 =>
-                 Set_En <= '1';
+                 shift_En <= '1';
                  NS <= idle;
                  advance <= '1';
           end case;      
