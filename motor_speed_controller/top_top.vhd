@@ -259,3 +259,5 @@ countdown_right <= Dwnen2 ;
     
 Countkiri <=  output_left ; 
 Countkanan <= output_right ;
+
+end Behavioral;
