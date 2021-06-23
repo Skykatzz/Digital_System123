@@ -1,37 +1,41 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity READY_INDICATOR is
-    Port ( S : in STD_LOGIC; --Set '0'
-           R : in STD_LOGIC;--Reset
-           CLK : in STD_LOGIC; 
-           RST : in STD_LOGIC; --Reset System
-           Q : inout STD_LOGIC;
-           READY : inout STD_LOGIC);
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
 
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity READY_INDICATOR is
+    Port ( R : in STD_LOGIC; --srl_rst
+           S : in STD_LOGIC; --srl_set
+           RST : in STD_LOGIC; --Reset System
+           READY : out STD_LOGIC);--finish
 end READY_INDICATOR;
 
 architecture Behavioral of READY_INDICATOR is
 
---Initial value of S and R
-signal a : std_logic := '1';
-signal b : std_logic := '0';
+signal Q : std_logic := '1';
+signal QBAR : std_logic := '0';
 
 begin
-    process(RST, R, S, a, b)
+    process(RST, R, S, Q, QBAR)
     begin
         if RST = '1' then
-             a <= '1';
-             b <= '0';
+             Q <= '1';
+             QBAR <= '0';
 
-        else a <= R nor b;
-             b <= S nor a;
+        else Q <= R nor QBAR;
+             QBAR <= S nor Q;
 
         end if;
 
     end process;
 
-    Q <= a;
-    READY <= b;
+    READY <= QBAR;
 
 end Behavioral;
