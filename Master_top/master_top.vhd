@@ -160,7 +160,7 @@ signal pixelout : STD_LOGIC_VECTOR (7 downto 0);
 
 --between thresholding and speedndir:
 signal POS_B, SIZE_B : STD_LOGIC_VECTOR (9 downto 0);
-signal READY : std_logic;
+signal Q, READY : std_logic;
 
 -- between measurement and speedndir:
 signal RMF_DIRECTION, LMF_DIRECTION : std_logic;
