@@ -72,7 +72,7 @@ Port (  -- FROM THRESHOLDING:
 end component;
 	
 -- KELOMPOK SPEED GENERATOR & MEASUREMENT :
-component top_top is
+component top_final is
 Port ( 
 	---input ke motor controller
 	input_kecepatan_kiri  : in  STD_LOGIC_VECTOR (7 downto 0);
@@ -212,7 +212,7 @@ port map(
 );
 	
 -- Top level Motor gen & measurement
-TLPGSM : top_top 
+TLPGSM : top_final 
 PORT MAP (
 	input_kecepatan_kiri  => LM_SPEED,
 	input_kecepatan_kanan => RM_SPEED,
