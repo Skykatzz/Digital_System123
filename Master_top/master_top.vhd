@@ -116,8 +116,7 @@ Port (  -- FROM PIXEL CAPTURE or PIXEL CAPTURE:
 	-- TO DECIDE SPEED AND DIRECTION :
         Size_B : out  STD_LOGIC_VECTOR (9 downto 0);
         Pos_B : out  STD_LOGIC_VECTOR (9 downto 0);
-        Q : inout STD_LOGIC;
-        READY : inout STD_LOGIC);
+        READY : out STD_LOGIC);
 end component;
 	
 --Camera control & pixel capture
@@ -207,7 +206,6 @@ port map(
 	-- TO DECIDE SPEED AND DIRECTION :
         Size_B => Size_B,
         Pos_B => Pos_B,
-        Q => Q,
         READY => READY
 );
 	
