@@ -9,7 +9,6 @@ entity TOPLEVEL_THD is
            Y : in STD_LOGIC_VECTOR (7 downto 0); --only in, Y from Pixel Capture
            SIZE_B : out  STD_LOGIC_VECTOR (9 downto 0);
            POS_B : out  STD_LOGIC_VECTOR (9 downto 0);
-           Q : inout STD_LOGIC;
            READY : inout STD_LOGIC);
 end TOPLEVEL_THD;
 
@@ -61,12 +60,10 @@ component MAX_LIGHT_SIZE_REGISTER is
 end component;
 
 component READY_INDICATOR is
-    Port ( S : in STD_LOGIC; --Set '0'
-           R : in STD_LOGIC;--Reset
-           CLK : in STD_LOGIC; 
+    Port ( R : in STD_LOGIC; --srl_rst
+           S : in STD_LOGIC; --srl_set
            RST : in STD_LOGIC; --Reset System
-           Q : inout STD_LOGIC;
-           READY : inout STD_LOGIC);
+           READY : out STD_LOGIC);--finish
 end component;
 
 component FINAL_POSITION is
@@ -145,9 +142,7 @@ begin
     READY_INDICATOR2 : READY_INDICATOR 
     Port map( S => '0',--SET
               R => VSYNC,--RESET
-              CLK => CLK,
               RST => RST,
-              Q => Q,
               READY => READY);
               
     FINAL_POSITION2 : FINAL_POSITION
