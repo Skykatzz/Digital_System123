@@ -52,7 +52,7 @@ component TOPLEVELSPEEDNDIR is
 Port (  -- FROM THRESHOLDING:
 	POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
 	SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
-	CTRL_EN : in  STD_LOGIC;
+	READY : in  STD_LOGIC;
 	-- FROM MEASUREMENT:
 	RMF_DIRECTION : in std_logic ;
 	RMF_SPEED : in std_logic_vector (7 downto 0);
