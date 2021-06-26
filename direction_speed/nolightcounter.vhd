@@ -19,23 +19,26 @@ Port (
 end nolightcounter;
 
 architecture Behavioral of nolightcounter is
-	signal ticks: std_logic_vector(9 downto 0);
+	signal ticks, tix: std_logic_vector(9 downto 0);
 	signal srl_set, srl_rst, Q, QBAR: std_logic;
 begin
 
-process(VSYNC, RST, NLC_EN, CAHAYA, ticks) is  -- PROCESS FOR COUNTING
+process(VSYNC, RST, NLC_EN, CAHAYA, tix) is  -- PROCESS FOR COUNTING
 begin
 	if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- if robot is reset, camera not ready, or light is detected
 		ticks <= "0000000000";
 	elsif rising_edge(VSYNC) then -- counter
-		if ticks = "1110101010" then -- when ticks = 938
+		if tix = "1110101010" then -- when ticks = 938
 			ticks <= "0000000000"; -- resets the value of ticks
 		else
-			ticks <= ticks + 1; -- increment ticks when ticks =/= 938
+			ticks <= ticks + "0000000001"; -- increment ticks when ticks =/= 938
 		end if;
 	end if;
 end process;
 
+-- register the value of ticks to tix
+tix <= ticks;		
+		
 -- resets the latch when ticks = 313
 -- (note: 313 ticks / 62.5 Hz = 5 seconds)
 -- causing the robot to STAY in place
