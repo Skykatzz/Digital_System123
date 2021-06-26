@@ -45,7 +45,7 @@ srl_rst <= '1' when ticks = "0100111001" else '0';
 QBAR <= srl_rst nor Q;
 Q <= srl_set nor QBAR;
 	
-	FINISH <= QBAR;
+FINISH <= QBAR;
 
 	
 end Behavioral;
