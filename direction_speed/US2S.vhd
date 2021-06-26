@@ -20,22 +20,21 @@ architecture US2S_v1 of US2S is
 signal tempL,tempR : std_logic_vector(7 downto 0);
 
 begin
+tempL <= (not LMF_SPEED) + 1;
 process(LMF_DIRECTION,LMF_SPEED,tempL)
 begin
 	if LMF_DIRECTION = '0' then --Left 0 CW (MAJU)
 	   L_Feedback <= ('0' & LMF_SPEED) ;
 	else
-	   tempL <= (not LMF_SPEED) + 1;
 	   L_Feedback<= ('1'& tempL );
 	end if;
 	end process ;
-	
+tempR <= (not RMF_SPEED)+1;
 process(RMF_DIRECTION,RMF_SPEED,tempR)
 begin
 	if  RMF_DIRECTION ='1' then --Right 1 CCW (MAJU)
 	    R_Feedback <= ('0' & RMF_SPEED) ;
 	else
-	    tempR <= (not RMF_SPEED)+1;
 	    R_Feedback<= ('1'& tempR );
 	end if;
 end process ;
