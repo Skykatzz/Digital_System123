@@ -113,3 +113,48 @@ set_property PACKAGE_PIN V4 [get_ports Anodectivate[2]]
 set_property IOSTANDARD LVCMOS33 [get_ports Anodectivate[2]]
 set_property PACKAGE_PIN W4 [get_ports Anodectivate[3]]
 set_property IOSTANDARD LVCMOS33 [get_ports Anodectivate[3]]
+
+
+#VGA Connector
+#Bank = 14, Pin name = ,					Sch name = VGA_R0
+set_property PACKAGE_PIN G19 [get_ports VGA_Red[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Red[0]]
+#Bank = 14, Pin name = ,					Sch name = VGA_R1
+set_property PACKAGE_PIN H19 [get_ports VGA_Red[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Red[1]]
+#Bank = 14, Pin name = ,					Sch name = VGA_R2
+set_property PACKAGE_PIN J19 [get_ports VGA_Red[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Red[2]]
+#Bank = 14, Pin name = ,					Sch name = VGA_R3
+set_property PACKAGE_PIN N19 [get_ports VGA_Red[3]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Red[3]]
+#Bank = 14, Pin name = ,					Sch name = VGA_B0
+set_property PACKAGE_PIN N18 [get_ports VGA_Blue[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Blue[0]]
+#Bank = 14, Pin name = ,						Sch name = VGA_B1
+set_property PACKAGE_PIN L18 [get_ports VGA_Blue[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Blue[1]]
+#Bank = 14, Pin name = ,					Sch name = VGA_B2
+set_property PACKAGE_PIN K18 [get_ports VGA_Blue[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Blue[2]]
+#Bank = 14, Pin name = ,						Sch name = VGA_B3
+set_property PACKAGE_PIN J18 [get_ports VGA_Blue[3]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Blue[3]]
+#Bank = 14, Pin name = ,					Sch name = VGA_G0
+set_property PACKAGE_PIN J17 [get_ports VGA_Green[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Green[0]]
+#Bank = 14, Pin name = ,				Sch name = VGA_G1
+set_property PACKAGE_PIN H17 [get_ports VGA_Green[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Green[1]]
+#Bank = 14, Pin name = ,					Sch name = VGA_G2
+set_property PACKAGE_PIN G17 [get_ports VGA_Green[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Green[2]]
+#Bank = 14, Pin name = ,				Sch name = VGA_G3
+set_property PACKAGE_PIN D17 [get_ports VGA_Green[3]]
+set_property IOSTANDARD LVCMOS33 [get_ports VGA_Green[3]]
+#Bank = 14, Pin name = ,						Sch name = VGA_HS
+set_property PACKAGE_PIN P19 [get_ports h_sync]
+set_property IOSTANDARD LVCMOS33 [get_ports h_sync]
+#Bank = 14, Pin name = ,				Sch name = VGA_VS
+set_property PACKAGE_PIN R19 [get_ports v_sync]
+set_property IOSTANDARD LVCMOS33 [get_ports v_sync]
