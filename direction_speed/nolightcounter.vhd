@@ -27,7 +27,7 @@ process(VSYNC, RST, NLC_EN, CAHAYA, ticks) is  -- PROCESS FOR COUNTING
 begin
 	if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- if robot is reset, camera not ready, or light is detected
 		ticks <= "0000000000";
-	elsif rising_edge(VSYNC) then -- when the clock changes from 0 to 1
+	elsif rising_edge(VSYNC) then -- counter
 		if ticks = "1110101010" then -- when ticks = 938
 	       		ticks <= "0000000000"; -- resets the value of ticks
 		else
