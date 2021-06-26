@@ -23,34 +23,27 @@ architecture Behavioral of nolightcounter is
 	signal srl_set, srl_rst, Q, QBAR: std_logic;
 begin
 
-	process(VSYNC, RST, NLC_EN, CAHAYA) is  -- PROCESS FOR COUNTING
-	begin
-		if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- if robot is reset, camera not ready, or light is detected
-			ticks <= "0000000000";
-			srl_rst <= '0';
-			srl_set <= '1';
-			-- if light is detected, ticks, srl_set, and srl_rst will set to default,
-			-- and this module is ignored.
-		else -- if RST = '0' or NLC_EN = '1' or CAHAYA = '0'
-			if rising_edge(VSYNC) then -- when the clock changes from 0 to 1
-				if ticks = "0100111001" then -- after roughly 5 seconds (0 - 313, 313 ticks/62.5 Hz = 5 seconds)
-					srl_rst <= '1'; -- resets the latch, causing FINISH => 0, tells the robot to stop moving
-					ticks <= ticks + 1; -- increment ticks again
-				elsif ticks = "1110101010" then -- after roughly 10 seconds (314 - 938)
-					srl_set <= '1' ; -- sets the latch, causing FINISH => 1, tells the robot to rotate again
-			   		ticks <= "0000000000"; -- resets the value of ticks
-				else
-	    		   		srl_rst <= '0';
-					srl_set <= '0'; -- the latch will remember the latest values of the outputs
-					ticks <= ticks + 1; -- increment ticks
-				end if;
-			end if;
+process(VSYNC, RST, NLC_EN, CAHAYA, ticks) is  -- PROCESS FOR COUNTING
+begin
+	if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- if robot is reset, camera not ready, or light is detected
+		ticks <= "0000000000";
+	elsif rising_edge(VSYNC) then -- when the clock changes from 0 to 1
+		if ticks = "1110101010" then -- when ticks = 938
+	       		ticks <= "0000000000"; -- resets the value of ticks
+		else
+			ticks <= ticks + 1; -- increment ticks
 		end if;
-	end process;
+	end if;
+end process;
+		
+--set when ticks = 938
+srl_set <= '1' when RST = '1' or NLC_EN = '0' or CAHAYA = '1' or ticks = "1110101010" else '0';
+--reset when ticks = 313
+srl_rst <= '1' when ticks = "0100111001" else '0';
 	
-	-- SR LATCH:	
-	QBAR <= srl_rst nor Q;
-	Q <= srl_set nor QBAR;
+-- SR LATCH:	
+QBAR <= srl_rst nor Q;
+Q <= srl_set nor QBAR;
 	
 	FINISH <= QBAR;
 
