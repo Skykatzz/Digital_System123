@@ -29,7 +29,7 @@ begin
     process(a, b, TGR) --mencegah overflow goal right
     begin
         if (a(9) = '0' and b(9) = '1' and TGR(9) = '0') then 
-            TTGR <= "1000000001"; --mentok ke -511
+            TTGR <= "1000000011"; --mentok ke -511
         
         elsif (a(9) = '1' and b(9) = '0' and TGR(9) = '1') then 
             TTGR <= "0111111111"; --mentok ke 511
@@ -41,7 +41,7 @@ begin
     process(a, b, TGL) --mencegah overflow goal left
     begin
         if (a(9) = '1' and b(9) = '1' and TGL(9) = '0') then 
-            TTGL <= "1000000001"; --mentok ke -511
+            TTGL <= "1000000011"; --mentok ke -511
         
         elsif (a(9) = '0' and b(9) = '0' and TGL(9) = '1') then 
             TTGL <= "0111111111"; --mentok ke 511
