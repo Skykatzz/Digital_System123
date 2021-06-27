@@ -6,12 +6,11 @@ use IEEE.STD_LOGIC_SIGNED.all;
 entity Ctrl is
  Port ( POSITION : in  STD_LOGIC_VECTOR (9 downto 0);
           SIZE : in  STD_LOGIC_VECTOR (9 downto 0);
-          FIN_DELAY : in  STD_LOGIC;
+          ROTATE : in  STD_LOGIC;
           CTRL_EN : in  STD_LOGIC;
-          LIGHT : out STD_LOGIC;
           GOAL_LEFT : out  STD_LOGIC_VECTOR (8 downto 0);
           GOAL_RIGHT : out  STD_LOGIC_VECTOR (8 downto 0)
-          );
+          );  
 end Ctrl;
 
 architecture Control of Ctrl is
@@ -51,23 +50,21 @@ begin
         end if; 
     end process;
     
-    process(SIZE, CTRL_EN, FIN_DELAY, TTGL, TTGR) --selector goal speed
+    process(SIZE, CTRL_EN, ROTATE, TTGL, TTGR) --selector goal speed
     begin
-        if ((FIN_DELAY = '0' AND SIZE < "0001100100") OR CTRL_EN = '0') then
+
+        if ((ROTATE = '0' AND SIZE < "0001100100") OR CTRL_EN = '0') then
             GOAL_LEFT <= (others => '0');
             GOAL_RIGHT <= (others => '0');
-            LIGHT <= '0';
-        elsif (FIN_DELAY = '1' AND CTRL_EN = '1' AND SIZE < "0001100100") then
+        elsif (ROTATE = '1' AND CTRL_EN = '1' AND SIZE < "0001100100") then
             GOAL_LEFT <= "011111111";
             GOAL_RIGHT <= "100000001";
-            LIGHT <= '0';
-        --elsif SIZE > "0000000000" then
+        -- if SIZE > "0000000000" then
         else
             GOAL_LEFT <= TTGL(9 downto 1);
             GOAL_RIGHT <= TTGR(9 downto 1);
-            LIGHT <= '1';
         end if;
-    
+ 
     end process;
 
 end Control;
