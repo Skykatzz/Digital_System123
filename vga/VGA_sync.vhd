@@ -4,12 +4,13 @@ use ieee.std_logic_1164.all;
 
 entity VGA_sync is
     port (
-        pclk: in  std_logic;
-		rst: in  STD_LOGIC;
+        pclk: in  std_logic; --25MHz dari Wilson
+	rst: in  STD_LOGIC;
         VGA_Red: out std_logic_vector(3 downto 0);
         VGA_Green: out std_logic_vector(3 downto 0);
         VGA_Blue: out std_logic_vector(3 downto 0);
-		h_sync, v_sync:    out std_logic );
+	h_sync, v_sync: out std_logic
+    );
        
 end entity VGA_sync;
  
@@ -34,7 +35,7 @@ architecture Behavior of VGA_sync is
 timing:  
     process (pclk) is
         begin
-		  if(pclk' EVENT and pclk = '1') then 
+	if(pclk' EVENT and pclk = '1') then 
             if h_pos < 799 then
                 h_pos <= h_pos + 1;
             else
@@ -75,7 +76,8 @@ begin
 end process;
 
 
-draw:process(pclk, rst, h_pos, v_pos, videoOn)
+draw:
+process(pclk, rst, h_pos, v_pos, videoOn)
 begin
 	if(rst = '1')then
 		VGA_Red <= "0000";
@@ -85,24 +87,24 @@ begin
 		if(videoOn = '1')then
 			if((h_pos >= 1 and h_pos <=639) AND (v_pos >= 1 and v_pos <= 479))then
 				VGA_Red <= "1111";
-                VGA_Green <= "1111";
-                VGA_Blue <= "1111";
+                		VGA_Green <= "1111";
+                		VGA_Blue <= "1111";
 			else
 				VGA_Red <= "0000";
-                VGA_Green <= "0000";
-                VGA_Blue <= "0000";
+                		VGA_Green <= "0000";
+				VGA_Blue <= "0000";
 			end if;
 		else
 			VGA_Red <= "0000";
-            VGA_Green <= "0000";
-            VGA_Blue <= "0000";
+            		VGA_Green <= "0000";
+            		VGA_Blue <= "0000";
 		end if;
-         -- BLANKING
-        if (h_pos > 1 and h_pos < 160) or (v_pos > 1 and v_pos < 40 ) then
-            VGA_Red <= (others => '0');
-            VGA_Green <= (others => '0');
-            VGA_Blue <= (others => '0');
-        end if;         
+       		  -- BLANKING
+        	if (h_pos > 1 and h_pos < 160) or (v_pos > 1 and v_pos < 40 ) then
+            		VGA_Red <= (others => '0');
+            		VGA_Green <= (others => '0');
+            		VGA_Blue <= (others => '0');
+        	end if;         
 	end if;
 end process;
 
