@@ -11,50 +11,34 @@ use ieee.std_logic_unsigned.all;
 
 entity nolightcounter is
 Port (
-	VSYNC : in  STD_LOGIC; -- 62.5 Hz, from clock
+	CLK : in  STD_LOGIC; -- 62.5 Hz, from VSYNC
 	RST : in  STD_LOGIC; -- asynchronous reset
 	NLC_EN : in  STD_LOGIC; -- enable (or READY) from thresholding
-	CAHAYA : in  STD_LOGIC; -- availability of light
-	FINISH : out STD_LOGIC); -- shows the desired state of robot
+	CAHAYA : in  STD_LOGIC_VECTOR(9 downto 0); -- from size 10 bit
+	ROTATE : out STD_LOGIC); -- shows the desired state of robot
 end nolightcounter;
 
 architecture Behavioral of nolightcounter is
-	signal ticks, tix: std_logic_vector(9 downto 0);
-	signal srl_set, srl_rst, Q, QBAR: std_logic;
+	signal ticks : std_logic_vector(9 downto 0);
+	signal count_en : std_logic;
 begin
 
-process(VSYNC, RST, NLC_EN, CAHAYA, tix) is  -- PROCESS FOR COUNTING
+count_en <= '1' when CAHAYA < "0001100100" AND NLC_EN = '1' else '0';
+
+-- COUNTER
+process(RST, CLK, count_en, ticks) is
 begin
-	if RST = '1' or NLC_EN = '0' or CAHAYA = '1' then -- if robot is reset, camera not ready, or light is detected
-		ticks <= "0000000000";
-	elsif rising_edge(VSYNC) then -- counter
-		if tix = "1110101010" then -- when ticks = 938
-			ticks <= "0000000000"; -- resets the value of ticks
+	if RST = '1' then -- asynchronous
+		ticks <= (others => '0'); 
+	elsif rising_edge(CLK) then -- synchronous
+		if count_en = '0' then
+			ticks <= (others => '0');
 		else
-			ticks <= ticks + "0000000001"; -- increment ticks when ticks =/= 938
+			ticks <= ticks + 1; -- increment ticks
 		end if;
 	end if;
 end process;
 
--- register the value of ticks to tix
-tix <= ticks;		
-		
--- resets the latch when ticks = 313
--- (note: 313 ticks / 62.5 Hz = 5 seconds)
--- causing the robot to STAY in place
-srl_rst <= '1' when ticks = "0100111001" else '0';
+ROTATE <= '1' when ticks < "0100111001" or count_en = '0' else '0';
 
--- sets the latch when ticks = 938
--- (note: 938 ticks / 62.5 Hz = 15 seconds, or 10 seconds after the first 313 ticks)
--- causing the robot to ROTATE in place
-srl_set <= '1' when RST = '1' or NLC_EN = '0' or CAHAYA = '1' or ticks = "1110101010" else '0';
-
-
--- SR LATCH:	
-QBAR <= srl_rst nor Q;
-Q <= srl_set nor QBAR;
-	
-FINISH <= QBAR;
-
-	
 end Behavioral;
