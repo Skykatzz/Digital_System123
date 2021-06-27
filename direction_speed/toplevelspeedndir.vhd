@@ -41,8 +41,7 @@ component S2US is
         RM_DIRECTION : out std_logic ;
         RM_SPEED : out std_logic_vector (7 downto 0);
         LM_DIRECTION : out std_logic ;
-        LM_SPEED : out std_logic_vector (7 downto 0);
-		  RST : in  STD_LOGIC);
+        LM_SPEED : out std_logic_vector (7 downto 0));
 end component;
 
 component US2S is
@@ -98,8 +97,7 @@ datapath_S2US : S2US
 		RM_DIRECTION => RM_DIRECTION,
 		RM_SPEED => RM_SPEED,
 		LM_DIRECTION => LM_DIRECTION,
-		LM_SPEED => LM_SPEED,
-		RST => RST);
+		LM_SPEED => LM_SPEED);
 				
 datapath_Ctrl : Ctrl
 	port map(POSITION => POSITION,
