@@ -276,10 +276,10 @@ TLCAM : toplevel PORT MAP (
       
 --VGA Component
 VGA : VGA_sync PORT MAP (
-	pclk <= pclk_in,
+	pclk <= pclk_in, --receive 25MHz from pclk_in
 	rst => rst,
         VGA_Red <= pixelout,
-        VGA_Green <= pixelout,
+        VGA_Green <= pixelout, --VGA_Red/Green/Blue receive data from pixelout
         VGA_Blue <= pixelout,
 	h_sync => h_sync,
 	v_sync => v_sync
