@@ -147,7 +147,7 @@ END COMPONENT;
 --Kelompok komponen VGA :
 component VGA_sync is
 Port (
-        clk: in  std_logic; --pclk 25 MHz dari Wilson
+        pclk: in  std_logic; --pclk 25 MHz dari Wilson
 	rst: in  std_logic; --reset
         VGA_Red: out std_logic_vector(3 downto 0);
         VGA_Green: out std_logic_vector(3 downto 0);
