@@ -144,6 +144,18 @@ PORT(   sioc : out  STD_LOGIC;
         rst : in  STD_LOGIC);
 END COMPONENT;
 	
+--Kelompok komponen VGA :
+component VGA_sync is
+Port (
+        clk: in  std_logic; --pclk 25 MHz dari Wilson
+	rst: in  std_logic; --reset
+        VGA_Red: out std_logic_vector(3 downto 0);
+        VGA_Green: out std_logic_vector(3 downto 0);
+        VGA_Blue: out std_logic_vector(3 downto 0);
+	h_sync, v_sync: out std_logic;
+);
+end component;
+	
 
 -- tulis top level masing-masing kelompok di sini:
 -- component xxx is
@@ -260,6 +272,17 @@ TLCAM : toplevel PORT MAP (
       mclk  =>   mclk,  
       reset => reset, 
       rst   =>   rst   
+    );
+      
+--VGA Component
+VGA : VGA_sync PORT MAP (
+	pclk <= pclk_in,
+	rst => rst,
+        VGA_Red <= pixelout,
+        VGA_Green <= pixelout,
+        VGA_Blue <= pixelout,
+	h_sync => h_sync,
+	v_sync => v_sync
     );
 -- tulis port map masing-masing kelompok di sini:
 -- bebas : (nama file top level kalian)
