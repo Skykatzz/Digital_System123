@@ -152,7 +152,7 @@ Port (
         VGA_Red: out std_logic_vector(3 downto 0);
         VGA_Green: out std_logic_vector(3 downto 0);
         VGA_Blue: out std_logic_vector(3 downto 0);
-	h_sync, v_sync: out std_logic;
+	h_sync, v_sync: out std_logic
 );
 end component;
 	
