@@ -8,13 +8,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity top_top_final is
 Port ( 
 
-
-
-
 ---input ke motor controller
 input_kecepatan_kiri  : in  STD_LOGIC_VECTOR (7 downto 0);
-
-
 input_kecepatan_kanan : in  STD_LOGIC_VECTOR (7 downto 0);
 input_direction_kiri : in STD_LOGIC;
 input_direction_kanan : in STD_LOGIC;
