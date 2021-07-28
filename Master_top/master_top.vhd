@@ -149,6 +149,7 @@ component VGA_sync is
 Port (
         pclk: in  std_logic; --pclk 25 MHz dari Wilson
 	rst: in  std_logic; --reset
+	pixelin : in std_logic_vector (7 downto 0);
         VGA_Red: out std_logic_vector(3 downto 0);
         VGA_Green: out std_logic_vector(3 downto 0);
         VGA_Blue: out std_logic_vector(3 downto 0);
@@ -276,13 +277,14 @@ TLCAM : toplevel PORT MAP (
       
 --VGA Component
 VGA : VGA_sync PORT MAP (
-	pclk <= pclk_in, --receive 25MHz from pclk_in
+	pclk => pclk_in, --receive 25MHz from pclk_in
 	rst => rst,
-        VGA_Red <= pixelout,
-        VGA_Green <= pixelout, --VGA_Red/Green/Blue receive data from pixelout
-        VGA_Blue <= pixelout,
+        VGA_Red => VGA_Red,
+        VGA_Green => VGA_Green, --VGA_Red/Green/Blue receive data from pixelout
+        VGA_Blue => VGA_Blue,
 	h_sync => h_sync,
-	v_sync => v_sync
+	v_sync => v_sync,
+	pixelin => pixelout
     );
 -- tulis port map masing-masing kelompok di sini:
 -- bebas : (nama file top level kalian)
