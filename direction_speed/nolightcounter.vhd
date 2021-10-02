@@ -11,7 +11,7 @@ use ieee.std_logic_unsigned.all;
 
 entity nolightcounter is
 Port (
-	CLK : in  STD_LOGIC; -- 62.5 Hz, from VSYNC
+	CLK : in  STD_LOGIC; -- 100 MHz
 	RST : in  STD_LOGIC; -- asynchronous reset
 	NLC_EN : in  STD_LOGIC; -- enable (or READY) from thresholding
 	CAHAYA : in  STD_LOGIC_VECTOR(9 downto 0); -- from size 10 bit
@@ -19,26 +19,42 @@ Port (
 end nolightcounter;
 
 architecture Behavioral of nolightcounter is
-	signal ticks : std_logic_vector(9 downto 0);
-	signal count_en : std_logic;
+	signal ticks, clockcount : integer :=0;
+	signal count_en, CCLK, b : std_logic;
 begin
 
 count_en <= '1' when CAHAYA < "0001100100" AND NLC_EN = '1' else '0';
 
+-- clock divider: 100 Mhz to 1 MHz
+process(RST,CLK, clockcount, b)
+begin
+if RST='1' then
+    clockcount <= 0;
+    b <= '0';
+elsif rising_edge(CLK) then
+    clockcount <= clockcount + 1;
+    if (clockcount = 49999999) then
+        b <= not b;
+        clockcount <= 0;
+    end if;
+end if;
+CCLK <= b;
+end process;
+
 -- COUNTER
-process(RST, CLK, count_en, ticks) is
+process(RST, CCLK, count_en, ticks) is
 begin
 	if RST = '1' then -- asynchronous
-		ticks <= (others => '0'); 
-	elsif rising_edge(CLK) then -- synchronous
+		ticks <= 0; 
+	elsif rising_edge(CCLK) then -- synchronous, 1 hz
 		if count_en = '0' then
-			ticks <= (others => '0');
+			ticks <= 0;
 		else
 			ticks <= ticks + 1; -- increment ticks
 		end if;
 	end if;
 end process;
 
-ROTATE <= '1' when ticks < "0100111001" or count_en = '0' else '0';
+ROTATE <= '1' when ticks < 5 or count_en = '0' else '0';
 
 end Behavioral;
