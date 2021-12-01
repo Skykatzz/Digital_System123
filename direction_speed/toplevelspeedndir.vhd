@@ -66,7 +66,7 @@ end component;
 
 component nolightcounter is
 Port (
-	CLK : in  STD_LOGIC; -- 62.5 Hz
+	CLK : in  STD_LOGIC; -- full clock
 	RST : in  STD_LOGIC; -- asynchronous reset
 	NLC_EN : in  STD_LOGIC; -- enable dari thresholding
 	CAHAYA : in  STD_LOGIC_VECTOR(9 DOWNTO 0); -- ada tidaknya cahaya
