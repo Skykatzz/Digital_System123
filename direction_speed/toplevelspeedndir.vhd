@@ -11,8 +11,7 @@ Port (  -- FROM THRESHOLDING:
 	RMF_SPEED : in std_logic_vector (7 downto 0);
 	LMF_DIRECTION : in std_logic ;
 	LMF_SPEED : in std_logic_vector (7 downto 0);
-	-- FROM CAMERA:
-	VSYNC : in  STD_LOGIC; -- 62.5 Hz
+	CLK : in  STD_LOGIC; -- full clock
 	-- RESET:
 	RST : in  STD_LOGIC;
 	-- TO PWM:
@@ -112,7 +111,7 @@ datapath_Ctrl : Ctrl
 datapath_nolightcounter : nolightcounter
 	port map(CAHAYA => SIZE,
 		ROTATE => ROTATE,
-		CLK => VSYNC,
+		CLK => CLK,
 		RST => RST,
 		NLC_EN => READY);
 				
@@ -123,7 +122,5 @@ datapath_US2S : US2S
 		RMF_SPEED => RMF_SPEED,
 		LMF_DIRECTION => LMF_DIRECTION,
 		LMF_SPEED => LMF_SPEED );				
-
-
 
 end Behavioral;
